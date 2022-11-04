@@ -15,7 +15,7 @@ function Welcome(){
                 <div className="col-lg-3"/>
                 <div className="col-lg-6" style={{textAlign: 'center'}}>
                     <div className="row justify-content-center mt-5 mb-5 pt-5 pb-5">
-                        <img src="/imagenes/Poke_Ball.png" className='spin' alt="Not found" style={{minWidth: '300px', maxWidth:'300px'}}/>
+                        <img src="/images/Poke_Ball.png" className='spin' alt="Not found" style={{minWidth: '300px', maxWidth:'300px'}}/>
                     </div>
                     <div className="row justify-content-center mt-5 pt-5">
                         <div className="col-lg-5">

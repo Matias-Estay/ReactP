@@ -56,7 +56,7 @@ function Search(){
                             {row.nombre}
                         </TableCell>
                         <TableCell align="center">
-                            <img src={'/Imagenes/sprites/'+ String(row.id) +'.png'}></img>
+                            <img src={'/images/sprites/'+ String(row.id) +'.png'}></img>
                         </TableCell>
                         <TableCell align="center">
                             
