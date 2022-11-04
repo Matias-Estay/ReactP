@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ReactDOM from 'react-dom';
 import { TableFooter } from '@mui/material';
-
+import Pokedex from './Pokedex.jsx';
 function Search(){
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -59,7 +59,7 @@ function Search(){
                             <img src={'/images/sprites/'+ String(row.id) +'.png'}></img>
                         </TableCell>
                         <TableCell align="center">
-                            
+                            <Pokedex/>
                         </TableCell>
                     </TableRow>
                 ))}
