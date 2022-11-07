@@ -21,4 +21,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
-Route::get('/ObtenerPokemones', [App\Http\Controllers\IndexController::class, 'get_pokemones']);
+Route::get('/Pokemons', [App\Http\Controllers\IndexController::class, 'get_pokemons']);
+Route::get('/DataPokemon', [App\Http\Controllers\IndexController::class, 'get_datapokemon']);
