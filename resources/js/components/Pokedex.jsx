@@ -1,10 +1,12 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Loader from './Loader.jsx';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -16,6 +18,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
 ChartJS.register(
   RadialLinearScale,
   RadarController,
@@ -41,9 +44,10 @@ const style = {
 
 export default function BasicModal(props) {
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [logged, setLogged] = React.useState(true);
   const [success, setSuccess] = React.useState(false);
-  const [image, setImage] = React.useState('poke_ball.png');
+  const [image, setImage] = React.useState('poke_ball_base.png');
   const [dataP, setDataP] = React.useState({});
   const [effective_t1, setEffective_1] = React.useState([]);
   const [effective_t2, setEffective_2] = React.useState([]);
@@ -52,18 +56,25 @@ export default function BasicModal(props) {
   const [weak_t2, setWeak_t2] = React.useState([]);
 
   React.useEffect(()=>{
+    setLoading(true);
     window.axios.get('/DataPokemon',{params:{id:props.id}}).then((resultado)=>{
       setDataP(resultado.data[0]);
-    });
-    window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado)=>{
-      setEffective_1(resultado.data[0]);
-      setEffective_2(resultado.data[1]);
-    });
-    window.axios.get('/DataPokemonTableW',{params:{id:props.id}}).then((resultado)=>{
-      setWeak_t1(resultado.data[0]);
-      setWeak_t2(resultado.data[1]);
+      window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado)=>{
+        setEffective_1(resultado.data[0]);
+        setEffective_2(resultado.data[1]); 
+        window.axios.get('/DataPokemonTableW',{params:{id:props.id}}).then((resultado)=>{
+          setWeak_t1(resultado.data[0]);
+          setWeak_t2(resultado.data[1]);
+          setLoading(false);
+        });
+      });
     });
   },[]);
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
@@ -88,11 +99,10 @@ export default function BasicModal(props) {
           setImage('poke_ball_red.png')
           break;
         case 'mouseleave':
-          setImage('poke_ball.png');
+          setImage('poke_ball_base.png');
           break;
         case 'click':
           setImage('poke_ball_captured.png');
-          console.log(dataP);
             window.axios.post('/AddFavorite',{id:props.id}).then(resultado=>{
               setLogged(true);
               setSuccess(true);
@@ -102,6 +112,25 @@ export default function BasicModal(props) {
           break;
       }
   };
+  const Favorite_delete_mouse_event = (event, id='-1')=>{
+    switch(event.type){
+      case 'mouseenter':
+        setImage('poke_ball_release.png');
+        break;
+      case 'mouseleave':
+        setImage('poke_ball_base.png');
+        break;
+      case 'click':
+        setImage('poke_ball_release.png');
+          window.axios.post('/AddFavorite',{id:props.id}).then(resultado=>{
+            setLogged(true);
+            setSuccess(true);
+          }).catch(function (error) {
+            setLogged(false);
+          });
+        break;
+    }
+};
   const handleClose = () => {
     setOpen(false);
     setLogged(true);
@@ -151,6 +180,7 @@ export default function BasicModal(props) {
 
   return (
     <div>
+      <Loader loading={loading}></Loader>
       <Button variant="contained" color="info"onClick={handleOpen}>Stats</Button>
       <Modal
         open={open}
@@ -183,7 +213,7 @@ export default function BasicModal(props) {
                     <div className="accordion-item">
                       <h2 className="accordion-header" id="panelsStayOpen-headingOne">
                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                          Base Type
+                          Types
                         </button>
                       </h2>
                       <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -210,13 +240,13 @@ export default function BasicModal(props) {
                         <Box sx={{ width: '100%' }}>
                           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <Tabs value={valuetab} onChange={handleChange}>
-                              <Tab label={dataP.h1n} value={0}/>
+                              <Tab label={dataP.h1n}  id={'simple-tab-'+0} aria-controls ={'simple-tabpanel-'+0}/>
                               {dataP.h2n!=''?
-                              <Tab label={dataP.h2n} value={1}/>
+                              <Tab label={dataP.h2n} id={'simple-tab-'+1} aria-controls ={'simple-tabpanel-'+1}/>
                               :''
                               }
                               {dataP.h3n!=''?
-                              <Tab label={dataP.h3n} value={2}/>
+                              <Tab label={dataP.h3n} id={'simple-tab-'+2} aria-controls ={'simple-tabpanel-'+2}/>
                               :''
                               }
                             </Tabs>
@@ -248,7 +278,7 @@ export default function BasicModal(props) {
                           <table className="table">
                             <thead className="thead-dark">
                               <tr>
-                                <th scope="col">Type</th>
+                                <th scope="col">Base Type</th>
                                 <th scope="col">Strong Against</th>
                               </tr>
                             </thead>
@@ -358,9 +388,21 @@ export default function BasicModal(props) {
                 </div>
               </div>
               <div className="row">
-                <Button onMouseLeave={Favorite_mouse_event} onMouseEnter={Favorite_mouse_event} onClick={Favorite_mouse_event} className='favorite'>
-                    <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>
-                </Button>
+                {dataP.favorite =='-1' || dataP.favorite==null ?
+                  <div className="col-md-12" style={{textAlign:'center'}}>
+                    <p style={{fontFamily:'pokemon-solid'}}>Add to Favorites!</p>
+                    <Button onMouseLeave={Favorite_mouse_event} onMouseEnter={Favorite_mouse_event} onClick={Favorite_mouse_event} className='favorite'>
+                        <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>
+                    </Button>
+                  </div>
+                :
+                  <div className="col-md-12" style={{textAlign:'center'}}>
+                    <p style={{fontFamily:'pokemon-solid'}}>Release</p>
+                    <Button onMouseLeave={Favorite_delete_mouse_event} onMouseEnter={Favorite_delete_mouse_event} onClick={Favorite_delete_mouse_event} className='favorite'>
+                      <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>
+                    </Button>
+                  </div>
+                }
                 {logged==false?                    
                 <div className="alert alert-danger" role="alert">
                   You have to be logged in to add a pokémon to your favorites.

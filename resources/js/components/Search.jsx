@@ -23,8 +23,8 @@ function Search(){
             setItems(resultado.data);
         })
     },[]);
-    const newItemsCheapestFirst = () => {
-        var filtered = items.filter(x=>{return x.nombre.toLowerCase().includes(search_input)});
+    const newItemsFiltered = () => {
+        var filtered = items.filter(x=>{return x.nombre.toLowerCase().includes(search_input.toLowerCase().trim())});
         return filtered;
     }
 
@@ -35,6 +35,10 @@ function Search(){
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+    };
+
+    const SearchItems = (e)=>{
+        setSearch_input(e.target.value);
     };
     return (
         <TableContainer component={Paper}>
@@ -47,7 +51,7 @@ function Search(){
                                     <SearchIcon/>
                                 </div>
                                 <div className="col-md-11">
-                                    <Input style={{minWidth:'200px'}} placeholder='Search' value={search_input} onChange={e=>{setSearch_input(e.target.value)}}/>
+                                    <Input style={{minWidth:'200px'}} placeholder='Search' value={search_input} onChange={SearchItems}/>
                                 </div>
                             </div>
                         </TableCell>
@@ -61,8 +65,8 @@ function Search(){
                 </TableHead>
                 <TableBody>
                 {(rowsPerPage > 0
-                    ? newItemsCheapestFirst().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : newItemsCheapestFirst()
+                    ? newItemsFiltered().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    : newItemsFiltered()
                 ).map((row) => (
                     <TableRow
                     key={row.id}
@@ -71,7 +75,7 @@ function Search(){
                         <TableCell component="th" scope="row">
                             {row.pokedex}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell align="center" >
                             {row.nombre}
                         </TableCell>
                         <TableCell align="center">
@@ -87,7 +91,7 @@ function Search(){
                     <TableRow>
                         <TablePagination
                             rowsPerPageOptions={[7, 10, 25, 50 , 100]}
-                            count={newItemsCheapestFirst().length}
+                            count={newItemsFiltered().length}
                             page={page}
                             onPageChange={handleChangePage}
                             rowsPerPage={rowsPerPage}
@@ -97,7 +101,6 @@ function Search(){
                 </TableFooter>
             </Table>
         </TableContainer>
-        
     )
 }
 

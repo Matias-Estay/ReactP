@@ -37,3 +37,33 @@
         transform: translate3d(2px, 0, 0);
     }
 }
+
+@font-face {
+    font-family: 'pokemon-solid';
+    src: url('../css//pokemon-solid.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'pokemon-hollow';
+    src: url('../css//pokemon-hollow.ttf') format('truetype');
+}
+
+.box-overlay{
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    left: 0%;
+    top: -4.5%;
+    padding: 0;
+    text-align-last: center;
+    background-color: gray;
+    opacity: 30%;
+    z-index: 100;
+    margin: 0;
+}
+.spinner-overlay{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    place-content: center;
+}
