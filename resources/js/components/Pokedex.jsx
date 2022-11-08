@@ -180,7 +180,7 @@ export default function BasicModal(props) {
 
   return (
     <div>
-      <Loader loading={loading}></Loader>
+      {/* <Loader loading={loading}></Loader> */}
       <Button variant="contained" color="info"onClick={handleOpen}>Stats</Button>
       <Modal
         open={open}
