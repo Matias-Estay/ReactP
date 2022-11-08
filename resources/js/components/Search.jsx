@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import TablePagination from '@mui/material/TablePagination';
 import Table from '@mui/material/Table';
@@ -8,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import ReactDOM from 'react-dom';
 import { TableFooter } from '@mui/material';
 import Input from '@mui/material/Input';
 import Pokedex from './Pokedex.jsx';
