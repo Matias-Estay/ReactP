@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -23,7 +24,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('index');
     }
+
+    public function addtofavorites(Request $data)
+    {
+        $user = Auth::user();
+        DB::table('favoritos')->insert([
+            'id_usuario' => $user->id,
+            'id_pokemon' => $data->id,
+        ]);
+        return 'OK';
+    }
+
 
 }

@@ -23,3 +23,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 Route::get('/Pokemons', [App\Http\Controllers\IndexController::class, 'get_pokemons']);
 Route::get('/DataPokemon', [App\Http\Controllers\IndexController::class, 'get_datapokemon']);
+Route::get('/DataPokemonTableE', [App\Http\Controllers\IndexController::class, 'get_datapokemontableE']);
+Route::get('/DataPokemonTableW', [App\Http\Controllers\IndexController::class, 'get_datapokemontableW']);
+Route::post('/AddFavorite', [App\Http\Controllers\HomeController::class, 'addtofavorites']);

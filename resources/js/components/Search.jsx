@@ -42,8 +42,14 @@ function Search(){
                 <TableHead>
                     <TableRow>
                         <TableCell>
-                            <SearchIcon/>
-                            <Input placeholder='Search' value={search_input} onChange={e=>{setSearch_input(e.target.value)}}/>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <SearchIcon/>
+                                </div>
+                                <div className="col-md-11">
+                                    <Input style={{minWidth:'200px'}} placeholder='Search' value={search_input} onChange={e=>{setSearch_input(e.target.value)}}/>
+                                </div>
+                            </div>
                         </TableCell>
                     </TableRow>
                     <TableRow>
