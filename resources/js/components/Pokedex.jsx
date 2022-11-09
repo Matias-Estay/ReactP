@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { Radar } from 'react-chartjs-2';
 import Loader from './Loader.jsx';
 import {
   Chart as ChartJS,
@@ -54,22 +55,6 @@ export default function BasicModal(props) {
   const [valuetab, setValuetab] = React.useState(0);
   const [weak_t1, setWeak_t1] = React.useState([]);
   const [weak_t2, setWeak_t2] = React.useState([]);
-
-  React.useEffect(()=>{
-    setLoading(true);
-    window.axios.get('/DataPokemon',{params:{id:props.id}}).then((resultado)=>{
-      setDataP(resultado.data[0]);
-      window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado)=>{
-        setEffective_1(resultado.data[0]);
-        setEffective_2(resultado.data[1]); 
-        window.axios.get('/DataPokemonTableW',{params:{id:props.id}}).then((resultado)=>{
-          setWeak_t1(resultado.data[0]);
-          setWeak_t2(resultado.data[1]);
-          setLoading(false);
-        });
-      });
-    });
-  },[]);
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
@@ -130,7 +115,7 @@ export default function BasicModal(props) {
           });
         break;
     }
-};
+  }
   const handleClose = () => {
     setOpen(false);
     setLogged(true);
@@ -139,12 +124,26 @@ export default function BasicModal(props) {
   const handleChange = (event, newValue) => {
     setValuetab(newValue);
   };
-  const handleOpen = () => {
+  const handleOpen = async () => {
     setOpen(true);
-    setTimeout(() => {
-      new ChartJS(document.getElementById('myChart'+props.id),config);
-    }, 1000);
-  };
+    setLoading(true);
+    window.axios.get('/DataPokemon',{params:{id:props.id}}).then((resultado)=>{
+      setDataP(resultado.data[0]);
+      window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado)=>{
+        setEffective_1(resultado.data[0]);
+        setEffective_2(resultado.data[1]);
+        window.axios.get('/DataPokemonTableW',{params:{id:props.id}}).then((resultado)=>{
+          setWeak_t1(resultado.data[0]);
+          setWeak_t2(resultado.data[1]);
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+        });
+      });
+    });
+    
+     
+  }
   const data = {
     labels: ['HP','ATK','DEF','SP.A','SP.D','SPD' ],
     datasets: [
@@ -161,26 +160,20 @@ export default function BasicModal(props) {
       },
     ],
   };
-  const config = {
-    type: 'radar',
-    data: data,
-    scaleOverride: true,
-    scaleSteps: 10,
-    options: {
-        scales: {
-            r: {
-                angleLines: {
-                    display: false
-                },
-                suggestedMin: 0,
-            }
+  const options = {
+    scales: {
+        r: {
+            angleLines: {
+                display: false
+            },
+            suggestedMin: 0,
         }
     }
   };
-
+  
   return (
     <div>
-      {/* <Loader loading={loading}></Loader> */}
+      <Loader loading={loading}></Loader>
       <Button variant="contained" color="info"onClick={handleOpen}>Stats</Button>
       <Modal
         open={open}
@@ -384,7 +377,7 @@ export default function BasicModal(props) {
                   </div>
                 </div>
                 <div className="col-md-5">
-                  <canvas id={"myChart"+props.id}></canvas>
+                  <Radar options={options}  data={data}/>
                 </div>
               </div>
               <div className="row">

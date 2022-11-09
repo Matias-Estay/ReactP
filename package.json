@@ -25,7 +25,8 @@
         "@mui/icons-material": "^5.10.9",
         "@mui/material": "^5.10.12",
         "@mui/styled-engine-sc": "^5.10.6",
-        "chart.js": "^3.7.1",
+        "chart.js": "^3.9.1",
+        "react-chartjs-2": "^4.3.1",
         "styled-components": "^5.3.6"
     }
 }

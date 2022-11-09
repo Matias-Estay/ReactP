@@ -58,7 +58,7 @@
     text-align-last: center;
     background-color: gray;
     opacity: 30%;
-    z-index: 100;
+    z-index: 10000;
     margin: 0;
 }
 .spinner-overlay{
