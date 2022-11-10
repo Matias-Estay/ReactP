@@ -88,7 +88,7 @@ function Types(){
                 {weaknesses.map(x=>
                     (  
                         <>
-                            {x.multiplicador!=undefined && x.multiplicador!=1? 
+                            {x.multiplicador!=undefined && x.multiplicador!=1 && x.multiplicador!=0? 
                                 <div className="row mt-5 justify-content-center" key={x.id+100}>
                                     <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}} key={x.id+20}>
                                         {x.nombre+" "}  {"x"+x.multiplicador}

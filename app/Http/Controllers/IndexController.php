@@ -110,7 +110,7 @@ class IndexController extends Controller
     }
 
     public function get_typesweakness(Request $data){
-        $r = DB::SELECT("SELECT * FROM efectividades as e where multiplicador=0.5;");
+        $r = DB::SELECT("SELECT * FROM efectividades as e where multiplicador<=0.5;");
         $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_1 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
         $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_2 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id"); 
         $dfinal = array_merge($d1,$d2);
