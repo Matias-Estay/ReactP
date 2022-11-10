@@ -22,13 +22,13 @@ function Types(){
         switch(event.target.name){
             case "Type_1-name":
                 setSelected_type_1(event.target.value);
-                window.axios.post('/AllTypesFilter',{tipo_1:event.target.value, tipo_2:selected_type_2}).then(resultado=>{
+                window.axios.post('/AllTypesFilter',{type_1:event.target.value, type_2:selected_type_2}).then(resultado=>{
                     setWeaknesses(resultado.data);
                 });
                 break;
             case "Type_2-name":
                 setSelected_type_2(event.target.value);
-                window.axios.post('/AllTypesFilter',{tipo_1:selected_type_1, tipo_2:event.target.value}).then(resultado=>{
+                window.axios.post('/AllTypesFilter',{type_1:selected_type_1, type_2:event.target.value}).then(resultado=>{
                     setWeaknesses(resultado.data);
                 });
                 break;
@@ -81,13 +81,15 @@ function Types(){
                 </div>
             </div>
             <div className="container-fluid card-body mt-5">
-                <h4>Weaknesses (immunity and resistances are not applied yet)</h4>
+                <h4>Weaknesses</h4>
                 <hr/>
+                
+                <div className="container-fluid">
                 {weaknesses.map(x=>
                     (  
-                        <div className="container-fluid" key={x.id+100}>
-                            {x.id!=undefined? 
-                                <div className="row mt-5 justify-content-center">
+                        <>
+                            {x.multiplicador!=undefined && x.multiplicador!=1? 
+                                <div className="row mt-5 justify-content-center" key={x.id+100}>
                                     <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}} key={x.id+20}>
                                         {x.nombre+" "}  {"x"+x.multiplicador}
                                     </Button>
@@ -101,10 +103,11 @@ function Types(){
                                 :
                                 ''
                             }
-                        </div>
+                        </>
                     )
                 )
                 }
+                </div>
             </div>
         </div>
     )

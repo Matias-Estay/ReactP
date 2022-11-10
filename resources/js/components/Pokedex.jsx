@@ -53,8 +53,7 @@ export default function BasicModal(props) {
   const [effective_t1, setEffective_1] = React.useState([]);
   const [effective_t2, setEffective_2] = React.useState([]);
   const [valuetab, setValuetab] = React.useState(0);
-  const [weak_t1, setWeak_t1] = React.useState([]);
-  const [weak_t2, setWeak_t2] = React.useState([]);
+  const [weaknesses, setWeaknesses] = React.useState([]);
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
@@ -127,14 +126,13 @@ export default function BasicModal(props) {
   const handleOpen = async () => {
     setOpen(true);
     setLoading(true);
-    window.axios.get('/DataPokemon',{params:{id:props.id}}).then((resultado)=>{
-      setDataP(resultado.data[0]);
-      window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado)=>{
-        setEffective_1(resultado.data[0]);
-        setEffective_2(resultado.data[1]);
-        window.axios.get('/DataPokemonTableW',{params:{id:props.id}}).then((resultado)=>{
-          setWeak_t1(resultado.data[0]);
-          setWeak_t2(resultado.data[1]);
+    window.axios.get('/DataPokemon',{params:{id:props.id}}).then(async (resultado_1)=>{
+      setDataP(resultado_1.data[0]);
+      window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado_2)=>{
+        setEffective_1(resultado_2.data[0]);
+        setEffective_2(resultado_2.data[1]);
+        window.axios.post('/AllTypesFilter',{type_1:resultado_1.data[0].id_tipo_1,type_2:resultado_1.data[0].id_tipo_2}).then((resultado_3)=>{
+          setWeaknesses(resultado_3.data);
           setTimeout(() => {
             setLoading(false);
           }, 2000);
@@ -172,7 +170,7 @@ export default function BasicModal(props) {
   };
   
   return (
-    <div>
+    <>
       <Loader loading={loading}></Loader>
       <Button variant="contained" color="info"onClick={handleOpen}>Stats</Button>
       <Modal
@@ -325,52 +323,28 @@ export default function BasicModal(props) {
                       </h2>
                       <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
                         <div className="accordion-body" style={{overflow:'overlay'}}>
-                          <table className="table-responsive-sm">
-                            <thead className="thead-dark">
-                              <tr>
-                                <th scope="col">Base Type</th>
-                                <th scope="col">Weak Against</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">
-                                  {weak_t1.length==0?'': 
-                                  <Button variant="contained" className='mt-2' style={{backgroundColor:weak_t1[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
-                                    {weak_t1[0].type}
-                                  </Button>}
-                                </th>
-                                <td>
-                                  {weak_t1.map(x=>
-                                    (
-                                    <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px'}} key={x.efective}>
-                                      {x.efective}
-                                    </Button>
-                                    )
-                                  )
+                        {weaknesses.map(x=>
+                          (  
+                              <>
+                                  {x.multiplicador!=undefined && x.multiplicador!=1? 
+                                      <div className="row mt-5 justify-content-center" key={x.id+100}>
+                                          <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}} key={x.id+20}>
+                                              {x.nombre+" "}  {"x"+x.multiplicador}
+                                          </Button>
+                                          {
+                                              x.multiplicador=='4'?
+                                              <p style={{fontFamily:'pokemon-solid',minWidth:'140px', maxWidth:'140px'}}>Super Effective!</p>
+                                              :
+                                              <p style={{fontFamily:'pokemon-solid',minWidth:'140px', maxWidth:'140px'}}>Effective</p>
+                                          }
+                                      </div>
+                                      :
+                                      ''
                                   }
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  {weak_t2.length==0?'': 
-                                  <Button variant="contained" className='mt-2' style={{backgroundColor:weak_t2[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
-                                    {weak_t2[0].type}
-                                  </Button>}
-                                </th>
-                                <td>
-                                  {weak_t2.map(x=>
-                                    (
-                                    <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px'}} key={x.efective}>
-                                      {x.efective}
-                                    </Button>
-                                    )
-                                  )
-                                  }
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                              </>
+                          )
+                        )
+                        }
                         </div>
                       </div>
                     </div>
@@ -413,6 +387,6 @@ export default function BasicModal(props) {
           </div>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }

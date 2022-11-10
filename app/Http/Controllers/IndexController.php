@@ -84,25 +84,25 @@ class IndexController extends Controller
         return [$effective_1, $effective_2];
     }
 
-    public function get_datapokemontableW(Request $data){
-        $weakness_1 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = p.id_tipo_1) as 'type',
-        (SELECT t2.color FROM tipos as t2 WHERE t2.id = p.id_tipo_1) as 'color_type',
-        t.nombre as efective, t.color , e.multiplicador as multiplier
-        FROM pokemon.efectividades as e 
-        inner join pokemones as p on p.id_tipo_1=e.id_tipo_efectivo
-        inner join tipos as t on e.id_tipo=t.id
-		where e.id_tipo!=p.id_tipo_2 and p.id=$data->id");
+    // public function get_datapokemontableW(Request $data){
+    //     $weakness_1 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = p.id_tipo_1) as 'type',
+    //     (SELECT t2.color FROM tipos as t2 WHERE t2.id = p.id_tipo_1) as 'color_type',
+    //     t.nombre as efective, t.color , e.multiplicador as multiplier
+    //     FROM pokemon.efectividades as e 
+    //     inner join pokemones as p on p.id_tipo_1=e.id_tipo_efectivo
+    //     inner join tipos as t on e.id_tipo=t.id
+	// 	where e.id_tipo!=p.id_tipo_2 and p.id=$data->id");
 
-        $weakness_2 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = p.id_tipo_2) as 'type',
-        (SELECT t2.color FROM tipos as t2 WHERE t2.id = p.id_tipo_2) as 'color_type',
-        t.nombre as efective, t.color , e.multiplicador as multiplier
-        FROM pokemon.efectividades as e 
-        inner join pokemones as p on p.id_tipo_2=e.id_tipo_efectivo
-        inner join tipos as t on e.id_tipo=t.id
-		where e.id_tipo!=p.id_tipo_1 and  p.id_tipo_2!=0 and p.id=$data->id");
+    //     $weakness_2 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = p.id_tipo_2) as 'type',
+    //     (SELECT t2.color FROM tipos as t2 WHERE t2.id = p.id_tipo_2) as 'color_type',
+    //     t.nombre as efective, t.color , e.multiplicador as multiplier
+    //     FROM pokemon.efectividades as e 
+    //     inner join pokemones as p on p.id_tipo_2=e.id_tipo_efectivo
+    //     inner join tipos as t on e.id_tipo=t.id
+	// 	where e.id_tipo!=p.id_tipo_1 and  p.id_tipo_2!=0 and p.id=$data->id");
 
-        return [$weakness_1, $weakness_2];
-    }
+    //     return [$weakness_1, $weakness_2];
+    // }
     
     public function get_types(){
         $data = DB::SELECT("SELECT * from tipos where tipos.nombre<>''");
@@ -111,21 +111,16 @@ class IndexController extends Controller
 
     public function get_typesweakness(Request $data){
         $r = DB::SELECT("SELECT * FROM efectividades as e where multiplicador=0.5;");
-        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_1 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
-        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_2 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
+        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_1 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
+        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_2 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id"); 
         $dfinal = array_merge($d1,$d2);
         // dd($r);
         // Resistances
         for($i =0;$i<sizeof($dfinal);$i++){
             for($j=0;$j<sizeof($r);$j++){
-                if($dfinal[$i]->id==$r[$j]->id_tipo && ($r[$j]->id_tipo_efectivo==$data->tipo_1 || $r[$j]->id_tipo_efectivo==$data->tipo_2)){
+                if($dfinal[$i]->id==$r[$j]->id_tipo && ($r[$j]->id_tipo_efectivo==$data->type_1 || $r[$j]->id_tipo_efectivo==$data->type_2)){
                     $dfinal[$i]->multiplicador = $dfinal[$i]->multiplicador * $r[$j]->multiplicador;
                 }
-            }
-        }
-        for($i =0;$i<sizeof($dfinal);$i++){
-            if($dfinal[$i]->multiplicador==1){
-                array_splice($dfinal,$i,1);
             }
         }
         //REPEATED WEAKNESS
@@ -138,7 +133,6 @@ class IndexController extends Controller
             }
         }
         //INMUNITY
-
         return $dfinal;
     }
     
