@@ -81,7 +81,7 @@ function Types(){
                 </div>
             </div>
             <div className="container-fluid card-body mt-5">
-                <h4>Weaknesses (immunity not applied yet)</h4>
+                <h4>Weaknesses (immunity and resistances are not applied yet)</h4>
                 <hr/>
                 {weaknesses.map(x=>
                     (  
