@@ -13,7 +13,7 @@ function Welcome(){
                     </div>
                     <div className="row justify-content-center mt-5 pt-5">
                         <div className="col-lg-5">
-                            <Button href="/index" variant="contained" color="error">¿Que pasá mi fan?</Button>
+                            <Button href="/index" variant="contained" color="error">Go to the pokédex</Button>
                         </div>
                     </div>
                 </div>
