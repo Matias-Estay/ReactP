@@ -109,13 +109,22 @@ class IndexController extends Controller
         return $data;
     }
 
-    public function get_typesfilter(Request $data){
-        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_1 and e.id_tipo_efectivo<>0) as ef inner join tipos as t on ef.id_tipo=t.id");
-        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_2 and e.id_tipo_efectivo<>0) as ef inner join tipos as t on ef.id_tipo=t.id");
-        //SAME TYPE AS WEAKNESS
+    public function get_typesweakness(Request $data){
+        $r = DB::SELECT("SELECT * FROM efectividades as e where multiplicador=0.5;");
+        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_1 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
+        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_2 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
         $dfinal = array_merge($d1,$d2);
+        // dd($r);
+        // Resistances
         for($i =0;$i<sizeof($dfinal);$i++){
-            if($dfinal[$i]->id==$data->tipo_1 || $dfinal[$i]->id==$data->tipo_2){
+            for($j=0;$j<sizeof($r);$j++){
+                if($dfinal[$i]->id==$r[$j]->id_tipo && ($r[$j]->id_tipo_efectivo==$data->tipo_1 || $r[$j]->id_tipo_efectivo==$data->tipo_2)){
+                    $dfinal[$i]->multiplicador = $dfinal[$i]->multiplicador * $r[$j]->multiplicador;
+                }
+            }
+        }
+        for($i =0;$i<sizeof($dfinal);$i++){
+            if($dfinal[$i]->multiplicador==1){
                 array_splice($dfinal,$i,1);
             }
         }
@@ -129,7 +138,7 @@ class IndexController extends Controller
             }
         }
         //INMUNITY
-        
+
         return $dfinal;
     }
     
