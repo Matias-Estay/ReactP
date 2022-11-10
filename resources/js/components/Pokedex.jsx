@@ -382,14 +382,14 @@ export default function BasicModal(props) {
               </div>
               <div className="row">
                 {dataP.favorite =='-1' || dataP.favorite==null ?
-                  <div className="col-md-12" style={{textAlign:'center'}}>
+                  <div className="col-md-12 text-center">
                     <p style={{fontFamily:'pokemon-solid'}}>Add to Favorites!</p>
                     <Button onMouseLeave={Favorite_mouse_event} onMouseEnter={Favorite_mouse_event} onClick={Favorite_mouse_event} className='favorite'>
                         <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>
                     </Button>
                   </div>
                 :
-                  <div className="col-md-12" style={{textAlign:'center'}}>
+                  <div className="col-md-12 text-center">
                     <p style={{fontFamily:'pokemon-solid'}}>Release</p>
                     <Button onMouseLeave={Favorite_delete_mouse_event} onMouseEnter={Favorite_delete_mouse_event} onClick={Favorite_delete_mouse_event} className='favorite'>
                       <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>

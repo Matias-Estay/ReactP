@@ -11,6 +11,11 @@ class IndexController extends Controller
     {
         return view('index');
     }
+
+    public function table_types()
+    {
+        return view('types');
+    }
     
     public function get_pokemons(){
         $data = DB::SELECT("SELECT id, pokedex, nombre, sprite FROM pokemones");
@@ -99,6 +104,33 @@ class IndexController extends Controller
         return [$weakness_1, $weakness_2];
     }
     
-    
+    public function get_types(){
+        $data = DB::SELECT("SELECT * from tipos where tipos.nombre<>''");
+        return $data;
+    }
+
+    public function get_typesfilter(Request $data){
+        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_1 and e.id_tipo_efectivo<>0) as ef inner join tipos as t on ef.id_tipo=t.id");
+        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->tipo_2 and e.id_tipo_efectivo<>0) as ef inner join tipos as t on ef.id_tipo=t.id");
+        //SAME TYPE AS WEAKNESS
+        $dfinal = array_merge($d1,$d2);
+        for($i =0;$i<sizeof($dfinal);$i++){
+            if($dfinal[$i]->id==$data->tipo_1 || $dfinal[$i]->id==$data->tipo_2){
+                array_splice($dfinal,$i,1);
+            }
+        }
+        //REPEATED WEAKNESS
+        for($i =0;$i<sizeof($dfinal);$i++){
+            for($j =$i+1;$j<sizeof($dfinal);$j++){
+                if($dfinal[$i]->id==$dfinal[$j]->id){
+                    array_splice($dfinal,$j,1);
+                    $dfinal[$i]->multiplicador='4';
+                }
+            }
+        }
+        //INMUNITY
+        
+        return $dfinal;
+    }
     
 }

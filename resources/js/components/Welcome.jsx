@@ -7,7 +7,7 @@ function Welcome(){
         <div className="container-fluid vh-100">
             <div className="row justify-content-center vh-100" style={{alignContent: 'center'}}>
                 <div className="col-lg-3"/>
-                <div className="col-lg-6" style={{textAlign: 'center'}}>
+                <div className="col-lg-6 text-center">
                     <div className="row justify-content-center mt-5 mb-5 pt-5 pb-5">
                         <img src="/images/poke_ball_base.png" className='spin' alt="Not found" style={{minWidth: '300px', maxWidth:'300px'}}/>
                     </div>

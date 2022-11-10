@@ -22,9 +22,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function table_types()
     {
-        return view('index');
+        return view('types');
     }
 
     public function addtofavorites(Request $data)

@@ -15,3 +15,4 @@ import '../css/app.css'
 
 import './components/Welcome';
 import './components/Search';
+import './components/Types';

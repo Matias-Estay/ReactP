@@ -19,10 +19,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/types', [App\Http\Controllers\IndexController::class, 'table_types'])->name('table');
 Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 Route::get('/Pokemons', [App\Http\Controllers\IndexController::class, 'get_pokemons']);
 Route::get('/DataPokemon', [App\Http\Controllers\IndexController::class, 'get_datapokemon']);
 Route::get('/DataPokemonTableE', [App\Http\Controllers\IndexController::class, 'get_datapokemontableE']);
 Route::get('/DataPokemonTableW', [App\Http\Controllers\IndexController::class, 'get_datapokemontableW']);
+Route::get('/AllTypes', [App\Http\Controllers\IndexController::class, 'get_types']);
 Route::post('/AddFavorite', [App\Http\Controllers\HomeController::class, 'addtofavorites']);
+Route::post('/AllTypesFilter', [App\Http\Controllers\IndexController::class, 'get_typesfilter']);
