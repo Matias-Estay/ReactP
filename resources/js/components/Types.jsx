@@ -87,10 +87,10 @@ function Types(){
                 <div className="container-fluid">
                 {weaknesses.map(x=>
                     (  
-                        <>
+                        <div key={x.id+100}>
                             {x.multiplicador!=undefined && x.multiplicador!=1 && x.multiplicador!=0? 
-                                <div className="row mt-5 justify-content-center" key={x.id+100}>
-                                    <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}} key={x.id+20}>
+                                <div className="row mt-5 justify-content-center" >
+                                    <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}}>
                                         {x.nombre+" "}  {"x"+x.multiplicador}
                                     </Button>
                                     {
@@ -103,7 +103,7 @@ function Types(){
                                 :
                                 ''
                             }
-                        </>
+                        </div>
                     )
                 )
                 }

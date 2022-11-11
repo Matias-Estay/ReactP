@@ -1,9 +1,10 @@
 import * as React from 'react';
+
 function overlay(props){
     return(
         <div>
             {props.loading==true?
-                <div className="container-fluid box-overlay">
+                <div className="container-fluid box-overlay position-fixed" style={{top:'0%'}}>
                     <div className="row spinner-overlay">
                         <div className="spinner-grow text-primary" role="status"/>
                         <div className="spinner-grow text-secondary" role="status"/>

@@ -8,7 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { TableFooter } from '@mui/material';
 import Input from '@mui/material/Input';
 import Pokedex from './Pokedex.jsx';
@@ -41,7 +40,7 @@ function Search(){
         setSearch_input(e.target.value);
     };
     return (
-        <TableContainer component={Paper}>
+        <TableContainer>
             <Table aria-label="simple-table">
                 <TableHead>
                     <TableRow>
@@ -51,13 +50,13 @@ function Search(){
                                     <SearchIcon/>
                                 </div>
                                 <div className="col-md-11">
-                                    <Input style={{minWidth:'200px'}} placeholder='Search' value={search_input} onChange={SearchItems}/>
+                                    <Input style={{width:'200px'}} placeholder='Search' value={search_input} onChange={SearchItems}/>
                                 </div>
                             </div>
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>Pokedex #</TableCell>
+                        <TableCell align="center" sx={{width:'100px'}}>Pokedex #</TableCell>
                         <TableCell align="center">Name</TableCell>
                         <TableCell align="center"></TableCell>
                         <TableCell align="center"></TableCell>
@@ -72,7 +71,7 @@ function Search(){
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                        <TableCell component="th" scope="row">
+                        <TableCell align="center" sx={{maxWidth:'100px'}}>
                             {row.pokedex}
                         </TableCell>
                         <TableCell align="center" >

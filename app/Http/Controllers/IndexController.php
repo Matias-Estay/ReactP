@@ -68,18 +68,18 @@ class IndexController extends Controller
         $effective_1 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'type',
         (SELECT t2.color FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'color_type',
         t.nombre as efective, t.color , e.multiplicador as multiplier
-        FROM pokemon.efectividades as e 
+        FROM efectividades as e 
         inner join pokemones as p on p.id_tipo_1=e.id_tipo
         inner join tipos as t on e.id_tipo_efectivo=t.id
-        where p.id=$data->id;");
+        where p.id=$data->id and e.multiplicador>=2;");
 
         $effective_2 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'type', 
         (SELECT t2.color FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'color_type',
         t.nombre as efective, t.color , e.multiplicador as multiplier
-        FROM pokemon.efectividades as e 
+        FROM efectividades as e 
         inner join pokemones as p on p.id_tipo_2=e.id_tipo
         inner join tipos as t on e.id_tipo_efectivo=t.id
-        where p.id=$data->id;");
+        where p.id=$data->id and e.multiplicador>=2;");
 
         return [$effective_1, $effective_2];
     }
