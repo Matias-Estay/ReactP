@@ -18,7 +18,7 @@ class IndexController extends Controller
     }
     
     public function get_pokemons(){
-        $data = DB::SELECT("SELECT id, pokedex, nombre, sprite FROM pokemones");
+        $data = DB::SELECT("SELECT id, pokedex, nombre, id_tipo_1, id_tipo_2, sprite FROM pokemones");
         return $data;
     }
 
