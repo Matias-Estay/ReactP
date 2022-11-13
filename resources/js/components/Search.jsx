@@ -16,8 +16,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Input from '@mui/material/Input';
 import Pokedex from './Pokedex.jsx';
+import Button from '@mui/material/Button';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import StarIcon from '@mui/icons-material/Star';
 function Search(){
     const [page, setPage] = useState(0);
+    const [favorites, setFavorites] = useState(false);
     const [selected_type_1, setSelected_type_1] = React.useState(0);
     const [selected_type_2, setSelected_type_2] = React.useState(0);
     const [options_type, setOptions_type] = useState([]);
@@ -46,8 +50,21 @@ function Search(){
         }
     };
 
+    const Favorites = ()=>{
+        setFavorites(true);
+    };
+
+    const DeleleteFilter = ()=>{
+        setSelected_type_1(0);
+        setSelected_type_2(0);
+        setFavorites(false);
+    };
+
     const newItemsFiltered = () => {
         var filtered = items.filter(x=>{return x.nombre.toLowerCase().includes(search_input.toLowerCase().trim())});
+        if(favorites){
+            var filtered = filtered.filter(x=>{return x.favorite != null});
+        }
         if(selected_type_1!=0 && selected_type_2!=0){
             return filtered.filter(x=>{return (x.id_tipo_1 == selected_type_1 || x.id_tipo_2==selected_type_1)  && (x.id_tipo_2==selected_type_2 || x.id_tipo_1 == selected_type_2)});
         }else if(selected_type_1 !=0){
@@ -81,7 +98,15 @@ function Search(){
                     <div className="col-sm-12 col-xl-3 mt-3">
                         <Input style={{width:'200px'}} placeholder='Search' value={search_input} onChange={SearchItems}/>
                     </div>
-                    <div className="col-sm-12 col-md-12 col-xl-4 mt-3">
+                    <div className="col-md-2 mt-2" style={{alignSelf: 'center'}}>
+                        <Button variant="outlined" onClick={DeleleteFilter}>
+                            <FilterAltOffIcon/>
+                        </Button>
+                        <Button variant="outlined" onClick={Favorites}>
+                            <StarIcon/>
+                        </Button>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-xl-3 mt-3">
                         <Box sx={{ minWidth: 120 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="Type_1-label">Type 1</InputLabel>
@@ -102,7 +127,7 @@ function Search(){
                             </FormControl>
                         </Box>
                     </div>
-                    <div className="col-sm-12 col-md-12 col-xl-4 mt-3">
+                    <div className="col-sm-12 col-md-12 col-xl-3 mt-3">
                         <Box sx={{ minWidth: 120 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="Type_2-label">Type 2</InputLabel>
