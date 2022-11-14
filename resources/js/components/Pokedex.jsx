@@ -104,7 +104,7 @@ export default function BasicModal(props) {
         break;
       case 'click':
         setImage('poke_ball_release.png');
-          window.axios.post('/AddFavorite',{id:props.id}).then(resultado=>{
+          window.axios.post('/DeleteFavorite',{id:props.id}).then(resultado=>{
             setLogged(true);
             setSuccess(true);
           }).catch(function (error) {
@@ -117,6 +117,7 @@ export default function BasicModal(props) {
     setOpen(false);
     setLogged(true);
     setSuccess(false);
+    props.Update_data();
   };
   const handleChange = (event, newValue) => {
     setValuetab(newValue);
@@ -375,14 +376,14 @@ export default function BasicModal(props) {
                     </div>
                   }
                   {logged==false?                    
-                  <div className="alert alert-danger" role="alert">
+                  <div className="alert alert-danger text-center" role="alert">
                     You have to be logged in to add a pokémon to your favorites.
                   </div>
                   :''
                   }
                   {success==true?
-                  <div className="alert alert-success" role="alert">
-                    You have added this pokémon to your favorites!
+                  <div className="alert alert-success text-center" role="alert">
+                    Completed!
                   </div>
                   :''
                   }

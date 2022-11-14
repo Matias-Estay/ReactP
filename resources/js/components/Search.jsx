@@ -30,6 +30,9 @@ function Search(){
     const [search_input,setSearch_input] = useState("");
 
     useEffect(()=>{
+        Update_data();
+    },[]);
+    const Update_data = ()=>{
         window.axios.get('/Pokemons',{}).then((resultado)=>{
             setItems(resultado.data);
         });
@@ -37,7 +40,7 @@ function Search(){
             resultado.data.push({id:0,nombre:'Select...'});
             setOptions_type(resultado.data);
         });
-    },[]);
+    };
 
     const Select_Type_Change = (event) => {
         switch(event.target.name){
@@ -175,7 +178,7 @@ function Search(){
                                 <img src={'/images/sprites/'+ String(row.sprite)}></img>
                             </TableCell>
                             <TableCell align="center">
-                                <Pokedex id={row.id}/>
+                                <Pokedex id={row.id} Update_data={Update_data}/>
                             </TableCell>
                         </TableRow>
                     ))}
