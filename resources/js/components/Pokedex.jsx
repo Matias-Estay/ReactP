@@ -50,6 +50,7 @@ export default function BasicModal(props) {
   const [dataP, setDataP] = React.useState({});
   const [effective_t1, setEffective_1] = React.useState([]);
   const [effective_t2, setEffective_2] = React.useState([]);
+  const [evolutions, setEvolutions] = React.useState([[],[]]);
   const [valuetab, setValuetab] = React.useState(0);
   const [weaknesses, setWeaknesses] = React.useState([]);
   TabPanel.propTypes = {
@@ -132,14 +133,17 @@ export default function BasicModal(props) {
         setEffective_2(resultado_2.data[1]);
         window.axios.post('/AllTypesFilter',{type_1:resultado_1.data[0].id_tipo_1,type_2:resultado_1.data[0].id_tipo_2}).then((resultado_3)=>{
           setWeaknesses(resultado_3.data);
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
+          window.axios.get('/EvolutionsByID',{params:{id:props.id}}).then((resultado_ev)=>{
+            setEvolutions(resultado_ev.data);
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+          });
         });
       });
     });
-    
-     
+
+
   }
   const data = {
     labels: ['HP','ATK','DEF','SP.A','SP.D','SPD' ],
@@ -167,7 +171,7 @@ export default function BasicModal(props) {
         }
     }
   };
-  
+
   return (
     <>
       <Loader loading={loading}></Loader>
@@ -281,7 +285,7 @@ export default function BasicModal(props) {
                               <tbody>
                                 <tr>
                                   <th scope="row">
-                                    {effective_t1.length==0?'': 
+                                    {effective_t1.length==0?'':
                                     <Button variant="contained" className='mt-2' style={{backgroundColor:effective_t1[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
                                       {effective_t1[0].type}
                                     </Button>}
@@ -299,7 +303,7 @@ export default function BasicModal(props) {
                                 </tr>
                                 <tr>
                                   <th scope="row">
-                                    {effective_t2.length==0?'': 
+                                    {effective_t2.length==0?'':
                                     <Button variant="contained" className='mt-2' style={{backgroundColor:effective_t2[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
                                       {effective_t2[0].type}
                                     </Button>}
@@ -329,9 +333,9 @@ export default function BasicModal(props) {
                         <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
                           <div className="accordion-body" style={{overflow:'overlay'}}>
                           {weaknesses.map(x=>
-                            (  
+                            (
                                 <div key={x.id+20}>
-                                    {x.multiplicador!=undefined && x.multiplicador!=1 && x.multiplicador!=0? 
+                                    {x.multiplicador!=undefined && x.multiplicador!=1 && x.multiplicador!=0?
                                         <div className="row mt-5 justify-content-center" key={x.id+100}>
                                             <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}}>
                                                 {x.nombre+" "}  {"x"+x.multiplicador}
@@ -350,6 +354,51 @@ export default function BasicModal(props) {
                             )
                           )
                           }
+                          </div>
+                        </div>
+                      </div>
+                      <div className="accordion-item">
+                        <h2 className="accordion-header" id="panelsStayOpen-headingFive">
+                          <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
+                            Evolutions
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFive">
+                          <div className="accordion-body">
+                            {
+                                evolutions[1]=='CASO 2'?
+                                    evolutions[0].map(item=>{
+                                        return(
+                                            <div key={item.id_pri}>
+                                                <div>
+                                                    <img src={'/images/sprites/'+item.sprite_pri}/>
+                                                    {item.nombre_pri}
+                                                </div>
+                                                <div>
+                                                    <img src={'/images/sprites/'+item.sprite_sec}/>
+                                                    {item.nombre_sec}
+                                                </div>
+                                                <div>
+                                                    <img src={'/images/sprites/'+item.sprite_ter}/>
+                                                    {item.nombre_ter}
+                                                </div>
+                                                <div>
+                                                    <img src={'/images/sprites/'+item.sprite_mega}/>
+                                                    {item.nombre_mega}
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                :
+                                evolutions[0].map(item=>{
+                                    return(
+                                        <div key={item.id}>
+                                            <img src={'/images/sprites/'+item.sprite}/>
+                                            {item.nombre}
+                                        </div>
+                                    )
+                                })
+                            }
                           </div>
                         </div>
                       </div>
@@ -375,7 +424,7 @@ export default function BasicModal(props) {
                       </Button>
                     </div>
                   }
-                  {logged==false?                    
+                  {logged==false?
                   <div className="alert alert-danger text-center" role="alert">
                     You have to be logged in to add a pokémon to your favorites.
                   </div>

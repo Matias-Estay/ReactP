@@ -26,6 +26,7 @@ Route::get('/DataPokemon', [App\Http\Controllers\IndexController::class, 'get_da
 Route::get('/DataPokemonTableE', [App\Http\Controllers\IndexController::class, 'get_datapokemontableE']);
 Route::get('/DataPokemonTableW', [App\Http\Controllers\IndexController::class, 'get_datapokemontableW']);
 Route::get('/AllTypes', [App\Http\Controllers\IndexController::class, 'get_types']);
+Route::get('/EvolutionsByID', [App\Http\Controllers\IndexController::class, 'get_evolutions']);
 Route::post('/AddFavorite', [App\Http\Controllers\HomeController::class, 'addtofavorites']);
 Route::post('/DeleteFavorite', [App\Http\Controllers\IndexController::class, 'deletefavorite']);
 Route::post('/AllTypesFilter', [App\Http\Controllers\IndexController::class, 'get_typesweakness']);
