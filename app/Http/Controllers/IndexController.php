@@ -152,23 +152,31 @@ class IndexController extends Controller
         e4.id_pokemon_evoluciona_de,e3.id_pokemon_evoluciona_de) as base FROM evoluciones e4 WHERE e4.id_pokemon=e3.id_pokemon_evoluciona_de),
         e2.id_pokemon_evoluciona_de) as base FROM evoluciones as e3 WHERE e3.id_pokemon=e2.id_pokemon_evoluciona_de),
         e.id_pokemon_evoluciona_de) as base FROM evoluciones as e2 WHERE e2.id_pokemon=e.id_pokemon_evoluciona_de),$data->id)
-        as base FROM evoluciones as e WHERE e.id_pokemon = $data->id");
+        as base FROM evoluciones as e WHERE e.id_pokemon = $data->id;");
 
         // PASO 2 VER SI ES UN DEGENERAO EJ: EEVEE}
 
-        $p_evolutions=DB::SELECT("SELECT * from evoluciones as e where e.id_pokemon_evoluciona_de=$data->id;");
+        $p_evolutions=DB::SELECT("SELECT p.id, p.nombre, p.sprite from evoluciones as e inner join pokemones as p on p.id = e.id_pokemon where e.id_pokemon_evoluciona_de=".$p_base[0]->base.";");
 
         if(sizeof($p_evolutions)>1){
             return [$p_evolutions,'CASO 1'];
         }
         // PASO 3 SI NO ES DEGENERADO, SACO EL ARBOL GENEALOGICO.
-        $p_evolutions = DB::SELECT("SELECT p3.id as id_mega,p3.nombre as nombre_mega, p3.sprite as sprite_mega, R2.* FROM
+        $p_ev_0 = DB::SELECT("SELECT p.sprite, p.id, p.nombre FROM pokemones as p WHERE p.id=".$p_base[0]->base.";");
+        $p_ev_1= DB::SELECT("SELECT p1.id , p1.nombre, p1.sprite FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon");
+        $p_ev_2 = DB::SELECT("SELECT p2.id, p2.nombre, p2.sprite FROM
+        (SELECT p1.id as id_sec, p1.nombre as nombre_sec, p1.sprite as sprite_sec, R.id as id_pri, R.nombre as nombre_pri, R.sprite as sprite_pri
+        FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon) as R1
+        inner join evoluciones e2 on e2.id_pokemon_evoluciona_de=R1.id_sec
+        inner join pokemones p2 on e2.id_pokemon=p2.id");
+        $p_ev_3= DB::SELECT("SELECT p3.id, p3.nombre, p3.sprite, true as mega FROM
         (SELECT p2.id as id_ter, p2.nombre as nombre_ter, p2.sprite as sprite_ter, R1.* FROM
         (SELECT p1.id as id_sec, p1.nombre as nombre_sec, p1.sprite as sprite_sec, R.id as id_pri, R.nombre as nombre_pri, R.sprite as sprite_pri
         FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon) as R1
         inner join evoluciones e2 on e2.id_pokemon_evoluciona_de=R1.id_sec
         inner join pokemones p2 on e2.id_pokemon=p2.id) as R2 inner join evoluciones e3 on e3.id_pokemon_evoluciona_de = R2.id_ter
         inner join pokemones p3 on p3.id=e3.id_pokemon");
+        $p_evolutions = array_merge(array_merge(array_merge($p_ev_0 ,$p_ev_1),$p_ev_2),$p_ev_3);
         return [$p_evolutions,'CASO 2'];
     }
 }

@@ -8,6 +8,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Radar } from 'react-chartjs-2';
 import Loader from './Loader.jsx';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import SouthEastIcon from '@mui/icons-material/SouthEast';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -192,7 +194,7 @@ export default function BasicModal(props) {
                     <div className="col-md-6">
                       <img src={'/images/sprites/'+dataP.sprite}/>
                     </div>
-                    <div className="col-md-6" style={{alignSelf:'center'}}>
+                    <div className="col-md-6 align-self-center">
                       <p className="text-break">{dataP.nombre}</p>
                     </div>
                   </div>
@@ -365,30 +367,55 @@ export default function BasicModal(props) {
                         </h2>
                         <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFive">
                           <div className="accordion-body">
+                            <div className='container-fluid' >
+                                <div className="row">
                             {
                                 evolutions[1]=='CASO 2'?
-                                    evolutions[0].map(item=>{
-                                        return(
-                                            <div key={item.id_pri}>
-                                                <div>
-                                                    <img src={'/images/sprites/'+item.sprite_pri}/>
-                                                    {item.nombre_pri}
-                                                </div>
-                                                <div>
-                                                    <img src={'/images/sprites/'+item.sprite_sec}/>
-                                                    {item.nombre_sec}
-                                                </div>
-                                                <div>
-                                                    <img src={'/images/sprites/'+item.sprite_ter}/>
-                                                    {item.nombre_ter}
-                                                </div>
-                                                <div>
-                                                    <img src={'/images/sprites/'+item.sprite_mega}/>
-                                                    {item.nombre_mega}
-                                                </div>
-                                            </div>
-                                        )
-                                    })
+                                    <>
+                                    {
+                                        evolutions[0].map((item,index)=>{
+                                            return(
+                                                <>
+                                                {item.mega==undefined?
+                                                    <>
+                                                        <div className='col-md-2 align-self-center' key={item.id}>
+                                                            <img src={'/images/sprites/'+item.sprite}/>
+                                                            {item.nombre}
+                                                        </div>
+                                                            {index!=evolutions[0].length-1?
+                                                                <div className="col-md-1 align-self-center">
+                                                                    <ArrowForwardIcon/>
+                                                                </div>
+
+                                                            :<></>
+                                                            }
+                                                    </>
+                                                    :<></>
+                                                }
+                                                </>
+                                            )
+                                        })
+                                    }
+                                    <div className="col-md-2">
+                                        {
+                                            evolutions[0].map((item)=>{
+                                                return(
+                                                    <>
+                                                    {item.mega==1?
+                                                        <div className="col-md-12 text-center">
+                                                            <img src={'/images/sprites/'+item.sprite}/>
+                                                            {item.nombre}
+                                                        </div>
+                                                        :
+                                                        <></>
+                                                    }
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    </>
+
                                 :
                                 evolutions[0].map(item=>{
                                     return(
@@ -398,7 +425,11 @@ export default function BasicModal(props) {
                                         </div>
                                     )
                                 })
+
                             }
+
+                                </div>
+                            </div>
                           </div>
                         </div>
                       </div>

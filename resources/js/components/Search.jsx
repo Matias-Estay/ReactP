@@ -101,7 +101,7 @@ function Search(){
                     <div className="col-sm-12 col-xl-3 mt-3">
                         <Input style={{width:'200px'}} placeholder='Search' value={search_input} onChange={SearchItems}/>
                     </div>
-                    <div className="col-md-2 mt-2" style={{alignSelf: 'center'}}>
+                    <div className="col-md-2 mt-2 align-self-center">
                         <Button variant="outlined" onClick={DeleleteFilter}>
                             <FilterAltOffIcon/>
                         </Button>
@@ -152,7 +152,7 @@ function Search(){
                         </Box>
                     </div>
                 </div>
-            </div>   
+            </div>
             <TableContainer>
                 <Table aria-label="simple-table">
                     <TableHead>
