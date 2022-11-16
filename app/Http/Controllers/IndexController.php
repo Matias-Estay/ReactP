@@ -162,7 +162,7 @@ class IndexController extends Controller
 
         $p_ev_0 = DB::SELECT("SELECT p.sprite, p.id, p.nombre, e_nivel.nivel FROM pokemones as p inner join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de=".$p_base[0]->base." WHERE p.id=".$p_base[0]->base.";");
         $p_ev_1= DB::SELECT("SELECT p1.id , p1.nombre, p1.sprite, e_nivel.nivel FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon
-        inner join evoluciones as e_nivel on e_nivel.id_pokemon = p1.id ");
+        left join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de = p1.id");
         $p_ev_2 = DB::SELECT("SELECT p2.id, p2.nombre, p2.sprite FROM
         (SELECT p1.id as id_sec, p1.nombre as nombre_sec, p1.sprite as sprite_sec, R.id as id_pri, R.nombre as nombre_pri, R.sprite as sprite_pri
         FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon) as R1
