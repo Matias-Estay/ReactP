@@ -3,17 +3,17 @@
     -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
 }
-@-moz-keyframes spin { 
-    100% { -moz-transform: rotate(360deg); } 
+@-moz-keyframes spin {
+    100% { -moz-transform: rotate(360deg); }
 }
-@-webkit-keyframes spin { 
-    100% { -webkit-transform: rotate(360deg); } 
+@-webkit-keyframes spin {
+    100% { -webkit-transform: rotate(360deg); }
 }
-@keyframes spin { 
-    100% { 
-        -webkit-transform: rotate(360deg); 
-        transform:rotate(360deg); 
-    } 
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform:rotate(360deg);
+    }
 }
 
 .h-90{
@@ -25,7 +25,7 @@
     transform: translate3d(0, 0, 0);
     perspective: 1000px;
 }
-  
+
 @keyframes shake {
     10%, 90% {
         transform: translate3d(-1px, 0, 0);
@@ -50,6 +50,10 @@
 @font-face {
     font-family: 'pokemon-hollow';
     src: url('../css//pokemon-hollow.ttf') format('truetype');
+}
+
+.pokemon-solid{
+    font-family:'pokemon-solid';
 }
 
 .box-overlay{

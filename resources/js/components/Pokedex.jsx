@@ -9,7 +9,6 @@ import Tab from '@mui/material/Tab';
 import { Radar } from 'react-chartjs-2';
 import Loader from './Loader.jsx';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import SouthEastIcon from '@mui/icons-material/SouthEast';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -344,9 +343,9 @@ export default function BasicModal(props) {
                                             </Button>
                                             {
                                                 x.multiplicador=='4'?
-                                                <p style={{fontFamily:'pokemon-solid',minWidth:'140px', maxWidth:'140px'}}>Super Effective!</p>
+                                                <p className='pokemon-solid' style={{minWidth:'140px', maxWidth:'140px'}}>Super Effective!</p>
                                                 :
-                                                <p style={{fontFamily:'pokemon-solid',minWidth:'140px', maxWidth:'140px'}}>Effective</p>
+                                                <p className='pokemon-solid' style={{minWidth:'140px', maxWidth:'140px'}}>Effective</p>
                                             }
                                         </div>
                                         :
@@ -361,7 +360,7 @@ export default function BasicModal(props) {
                       </div>
                       <div className="accordion-item">
                         <h2 className="accordion-header" id="panelsStayOpen-headingFive">
-                          <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
+                          <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
                             Evolutions
                           </button>
                         </h2>
@@ -385,6 +384,9 @@ export default function BasicModal(props) {
                                                             {index!=evolutions[0].length-1?
                                                                 <div className="col-md-1 align-self-center">
                                                                     <ArrowForwardIcon/>
+                                                                    <div className="row">
+                                                                        <p className='pokemon-solid'>{item.nivel!=undefined?'Lv:':''}{item.nivel}</p>
+                                                                    </div>
                                                                 </div>
 
                                                             :<></>
@@ -442,14 +444,14 @@ export default function BasicModal(props) {
                 <div className="row">
                   {dataP.favorite =='-1' || dataP.favorite==null ?
                     <div className="col-md-12 text-center">
-                      <p style={{fontFamily:'pokemon-solid'}}>Add to Favorites!</p>
+                      <p className='pokemon-solid'>Add to Favorites!</p>
                       <Button onMouseLeave={Favorite_mouse_event} onMouseEnter={Favorite_mouse_event} onClick={Favorite_mouse_event} className='favorite'>
                           <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>
                       </Button>
                     </div>
                   :
                     <div className="col-md-12 text-center">
-                      <p style={{fontFamily:'pokemon-solid'}}>Release</p>
+                      <p className='pokemon-solid'>Release</p>
                       <Button onMouseLeave={Favorite_delete_mouse_event} onMouseEnter={Favorite_delete_mouse_event} onClick={Favorite_delete_mouse_event} className='favorite'>
                         <img src={'/images/'+image} style={{maxWidth:'50px'}}></img>
                       </Button>
