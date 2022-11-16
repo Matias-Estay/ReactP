@@ -144,7 +144,7 @@ class IndexController extends Controller
     }
 
     public function get_evolutions(Request $data){
-        // PASO 1 OBTENER POKÉMON BASE, SI SOY CHARIZARD, DE DONDE CHUCHA VINE
+
         $p_base = DB::SELECT("SELECT IF(count(e.id_pokemon_evoluciona_de)>0,
         (SELECT IF(count(e2.id_pokemon_evoluciona_de)>0,
         (SELECT IF(count(e3.id_pokemon_evoluciona_de)>0,
@@ -154,17 +154,15 @@ class IndexController extends Controller
         e.id_pokemon_evoluciona_de) as base FROM evoluciones as e2 WHERE e2.id_pokemon=e.id_pokemon_evoluciona_de),$data->id)
         as base FROM evoluciones as e WHERE e.id_pokemon = $data->id;");
 
-        // PASO 2 VER SI ES UN DEGENERAO EJ: EEVEE}
-
         $p_evolutions=DB::SELECT("SELECT p.id, p.nombre, p.sprite from evoluciones as e inner join pokemones as p on p.id = e.id_pokemon where e.id_pokemon_evoluciona_de=".$p_base[0]->base.";");
 
         if(sizeof($p_evolutions)>1){
             return [$p_evolutions,'CASO 1'];
         }
-        // PASO 3 SI NO ES DEGENERADO, SACO EL ARBOL GENEALOGICO.
+
         $p_ev_0 = DB::SELECT("SELECT p.sprite, p.id, p.nombre, e_nivel.nivel FROM pokemones as p inner join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de=".$p_base[0]->base." WHERE p.id=".$p_base[0]->base.";");
         $p_ev_1= DB::SELECT("SELECT p1.id , p1.nombre, p1.sprite, e_nivel.nivel FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon
-        inner join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de = p1.id ");
+        inner join evoluciones as e_nivel on e_nivel.id_pokemon = p1.id ");
         $p_ev_2 = DB::SELECT("SELECT p2.id, p2.nombre, p2.sprite FROM
         (SELECT p1.id as id_sec, p1.nombre as nombre_sec, p1.sprite as sprite_sec, R.id as id_pri, R.nombre as nombre_pri, R.sprite as sprite_pri
         FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon) as R1
