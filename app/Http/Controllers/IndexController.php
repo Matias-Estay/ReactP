@@ -17,6 +17,11 @@ class IndexController extends Controller
         return view('types');
     }
 
+    public function pokedex(Request $data){
+        $id=$data->id;
+        return view('pokedex',compact('id'));
+    }
+
     public function get_pokemons(){
         $data = DB::SELECT("SELECT p.id, p.pokedex, p.nombre, p.id_tipo_1, p.id_tipo_2, p.sprite, p.generacion,
         (select fav.id_pokemon from favoritos as fav where p.id=fav.id_pokemon) as favorite

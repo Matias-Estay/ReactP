@@ -13,6 +13,7 @@ import '../css/app.css'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import './components/Welcome';
+import './components/WelcomeView';
 import './components/Search';
-import './components/Types';
+import './components/TypesView';
+import './components/PokedexView';

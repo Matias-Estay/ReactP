@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Input from '@mui/material/Input';
-import Pokedex from './Pokedex.jsx';
+import PokedexModal from './PokedexModal.jsx';
 import Button from '@mui/material/Button';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import StarIcon from '@mui/icons-material/Star';
@@ -178,7 +178,7 @@ function Search(){
                                 <img src={'/images/sprites/'+ String(row.sprite)}></img>
                             </TableCell>
                             <TableCell align="center">
-                                <Pokedex id={row.id} Update_data={Update_data}/>
+                                <PokedexModal id={row.id} Update_data={Update_data}/>
                             </TableCell>
                         </TableRow>
                     ))}

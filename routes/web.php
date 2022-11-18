@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/types', [App\Http\Controllers\IndexController::class, 'table_types'])->name('table');
 Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
+Route::get('/pokemon', [App\Http\Controllers\IndexController::class, 'pokedex'])->name('pokedexview');
 Route::get('/Pokemons', [App\Http\Controllers\IndexController::class, 'get_pokemons']);
 Route::get('/DataPokemon', [App\Http\Controllers\IndexController::class, 'get_datapokemon']);
 Route::get('/DataPokemonTableE', [App\Http\Controllers\IndexController::class, 'get_datapokemontableE']);
