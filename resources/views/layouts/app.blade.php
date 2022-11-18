@@ -39,11 +39,6 @@
                             <a class="nav-link" href="{{ route('table') }}">Types table</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pokedexview',['id'=>2]) }}">test</a>
-                        </li>
-                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
