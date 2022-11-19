@@ -14,6 +14,6 @@ import '../css/app.css'
  */
 
 import './components/WelcomeView';
-import './components/Search';
+import './components/SearchView';
 import './components/TypesView';
 import './components/PokedexView';

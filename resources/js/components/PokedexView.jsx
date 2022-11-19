@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PokemonInfo from './PokemonInfo.jsx';
+import PokemonInfo from './Globals/PokemonInfo.jsx';
 function PokedexView(props){
     return(
         <>

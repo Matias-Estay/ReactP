@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Input from '@mui/material/Input';
-import PokedexModal from './PokedexModal.jsx';
+import PokedexModal from './Globals/PokedexModal.jsx';
 import Button from '@mui/material/Button';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import StarIcon from '@mui/icons-material/Star';
