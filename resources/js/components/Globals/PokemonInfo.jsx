@@ -90,18 +90,22 @@ export default function PokemonInfo(props) {
   const Favorite_mouse_event = (event, id='-1')=>{
       switch(event.type){
         case 'mouseenter':
-          setImage('poke_ball_red.png')
-          break;
+            setImage('poke_ball_red.png')
+            break;
         case 'mouseleave':
-          setImage('poke_ball_base.png');
-          break;
+            setImage('poke_ball_base.png');
+            break;
         case 'click':
-          setImage('poke_ball_captured.png');
+            setImage('poke_ball_captured.png');
+            setLoading(true);
             window.axios.post('/AddFavorite',{id:props.id}).then(resultado=>{
-              setLogged(true);
-              setSuccess(true);
+                setLogged(true);
+                setSuccess(true);
+                setLoading(false);
             }).catch(function (error) {
-              setLogged(false);
+                console.log(error);
+                setLogged(false);
+                setLoading(false);
             });
           break;
       }
@@ -115,12 +119,16 @@ export default function PokemonInfo(props) {
         setImage('poke_ball_base.png');
         break;
       case 'click':
+        setLoading(true);
         setImage('poke_ball_release.png');
           window.axios.post('/DeleteFavorite',{id:props.id}).then(resultado=>{
             setLogged(true);
             setSuccess(true);
+            setLoading(false);
           }).catch(function (error) {
+            console.log(error)
             setLogged(false);
+            setLoading(false);
           });
         break;
     }
