@@ -28,7 +28,6 @@ ChartJS.register(
 
 export default function PokedexModal(props) {
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [logged, setLogged] = React.useState(true);
   const [success, setSuccess] = React.useState(false);
 

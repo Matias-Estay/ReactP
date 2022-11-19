@@ -44,6 +44,7 @@ export default function PokemonInfo(props) {
   const [weaknesses, setWeaknesses] = React.useState([]);
 
   React.useEffect(()=>{
+    setLoading(true);
     window.axios.get('/DataPokemon',{params:{id:props.id}}).then(async (resultado_1)=>{
         setDataP(resultado_1.data[0]);
         window.axios.get('/DataPokemonTableE',{params:{id:props.id}}).then((resultado_2)=>{
@@ -55,7 +56,7 @@ export default function PokemonInfo(props) {
               setEvolutions(resultado_ev.data);
               setTimeout(() => {
                   setLoading(false);
-              }, 500);
+              }, 1500);
             });
           });
         });
