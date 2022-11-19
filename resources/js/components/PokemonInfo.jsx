@@ -159,31 +159,34 @@ export default function PokemonInfo(props) {
     <>
     <Loader loading={loading}></Loader>
     <div className='container w-100 h-100 bg-light d-table'>
-        <nav className="navbar navbar-expand-lg bg-light">
-            <a className="navbar-brand" href="#">
-            <div className="container">
-                <div className="row">
-                <div className="col-md-6">
-                    <img src={'/images/sprites/'+dataP.sprite}/>
-                </div>
-                <div className="col-md-6 align-self-center">
-                    <p className="text-break">{dataP.nombre}</p>
-                </div>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src={'/images/sprites/'+dataP.sprite}/>
+                {dataP.nombre}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {props.handleClose!=null?
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={()=>{window.open('/pokemon?id='+props.id)}}>Open in new tab</a>
+                        </li>
+                    :<></>}
+                </ul>
+                <div className='d-flex'>
+                    {props.handleClose!=null?
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <Button variant="outlined" color="error" onClick={props.handleClose}>Close</Button>
+                            </li>
+                        </ul>
+                    :<></>}
                 </div>
             </div>
-            </a>
-            <ul className="navbar-nav m-4 ms-auto">
-            {props.handleClose!=null?
-                <>
-                    <li className="nav-item m-2">
-                        <Button variant="outlined" color="info" onClick={()=>{window.open('/pokemon?id='+props.id)}}>Open in new tab</Button>
-                    </li>
-                    <li className="nav-item m-2">
-                        <Button variant="outlined" color="error" onClick={props.handleClose}>x</Button>
-                    </li>
-                </>
-            :<></>}
-            </ul>
+        </div>
         </nav>
         <div className="container-fluid p-3">
             <div className="row">
@@ -338,7 +341,7 @@ export default function PokemonInfo(props) {
                     </div>
                     <div className="accordion-item">
                     <h2 className="accordion-header" id="panelsStayOpen-headingFive">
-                        <button className="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
                         Evolutions
                         </button>
                     </h2>
