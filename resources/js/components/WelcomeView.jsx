@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@mui/material/Button';
 
-function Welcome(){ 
+function Welcome(props){
     return(
         <div className="container-fluid vh-100">
             <div className="row justify-content-center vh-100" style={{alignContent: 'center'}}>
@@ -16,6 +16,13 @@ function Welcome(){
                             <Button href="/index" variant="contained" color="error">Go to the pokédex</Button>
                         </div>
                     </div>
+                    <div className="row justify-content-center mt-5">
+                        <div className="col-lg-5">
+                            Programed by Matías Estay<br/>
+                            {props.laravel}<br/>
+                            React 17.0.2
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-3"/>
             </div>
@@ -25,5 +32,6 @@ function Welcome(){
 export default Welcome;
 
 if (document.getElementById('welcome')) {
-    ReactDOM.render(<Welcome />, document.getElementById('welcome'));
+    const value = document.getElementById('welcome').getAttribute("laravel");
+    ReactDOM.render(<Welcome laravel={value}/>, document.getElementById('welcome'));
 }
