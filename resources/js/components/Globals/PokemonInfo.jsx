@@ -171,7 +171,7 @@ export default function PokemonInfo(props) {
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src={'/images/sprites/'+dataP.sprite}/>
+                <img src={'/images/sprites/'+dataP.sprite} width={96} height={96}/>
                 {dataP.nombre}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -362,59 +362,109 @@ export default function PokemonInfo(props) {
                                 evolutions[1]=='CASO 2'?
                                     <>
                                     {
-                                        evolutions[0].map((item,index)=>{
+                                        evolutions[0].map((item,index, array)=>{
                                             return(
                                                 <>
-                                                {item.mega==undefined?
+                                                {item.mega==0 && item.alola==0 && item.hisui==0 && item.galarian==0 && item.paldea==0?
                                                     <>
-                                                        <div className='col-md-2 align-self-center' key={item.id}>
-                                                            <img src={'/images/sprites/'+item.sprite}/>
-                                                            {item.nombre}
+                                                        <div className='col-md-1 align-self-center text-center' key={item.id}>
+                                                            <div className="row justify-content-center">
+                                                                <div className="col-md-12">
+                                                                    <img src={'/images/sprites/'+item.sprite} width={96} height={96}/>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row justify-content-center">
+                                                                {item.nombre}
+                                                            </div>
+                                                            <div className="row justify-content-center">
+                                                                {item.condicion}
+                                                            </div>
                                                         </div>
                                                             {index!=evolutions[0].length-1?
-                                                                <div className="col-md-1 align-self-center">
+                                                                <div className="col-md-2 align-self-center text-center">
                                                                     <ArrowForwardIcon/>
-                                                                    <div className="row">
-                                                                        <p className='pokemon-solid'>{item.nivel!=undefined?'Lv:':''}{item.nivel}</p>
-                                                                    </div>
+                                                                    {item.nivel!='0'?
+                                                                        <div className="row justify-content-center">
+                                                                            <p className='pokemon-solid'>{item.nivel!=undefined?'Lv:':''}{item.nivel}</p>
+                                                                        </div>
+                                                                    :<></>
+                                                                    }
+                                                                    {item.item!=undefined && item.item!=''?
+                                                                        <div className="row justify-content-center">
+                                                                            <div className="col-md-12">
+                                                                                <img src={'/images/objects/'+item.sprite_item}/>
+                                                                                {item.item}
+                                                                            </div>
+                                                                        </div>
+                                                                    :<></>
+                                                                    }
                                                                 </div>
 
-                                                            :<></>
+                                                            :
+                                                                <></>
                                                             }
                                                     </>
-                                                    :<></>
+                                                    :
+                                                        item.mega==1 || item.alola==1 || item.hisui==1 || item.galarian==1 || item.paldea==1?
+                                                        <>
+                                                            {index%4==0?
+                                                            <div className="col-md-9"/>
+                                                            :
+                                                            <></>
+                                                            }
+                                                                <div className="col-md-2 text-center">
+                                                                    <div className="row justify-content-center">
+                                                                        <div className="col-md-12">
+                                                                            <img src={'/images/sprites/'+item.sprite} width={96} height={96}/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="row justify-content-center">
+                                                                        <div className="col-md-12">
+                                                                            {item.nombre}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="row justify-content-center">
+                                                                        <div className="col-md-12">
+                                                                            {item.condicion}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        </>
+                                                            :
+                                                            <></>
+
                                                 }
                                                 </>
                                             )
                                         })
                                     }
-                                    <div className="col-md-2">
-                                        {
-                                            evolutions[0].map((item)=>{
-                                                return(
-                                                    <>
-                                                    {item.mega==1?
-                                                        <div className="col-md-12 text-center">
-                                                            <img src={'/images/sprites/'+item.sprite}/>
-                                                            {item.nombre}
-                                                        </div>
-                                                        :
-                                                        <></>
-                                                    }
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                    </div>
+
                                     </>
 
                                 :
                                 evolutions[0].map(item=>{
                                     return(
-                                        <div key={item.id}>
-                                            <img src={'/images/sprites/'+item.sprite}/>
-                                            {item.nombre}
-                                        </div>
+                                        <>
+                                            <div className='col-md-2 align-self-center text-center' key={item.id}>
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <ArrowForwardIcon/>
+                                                    </div>
+                                                </div>
+                                                {item.sprite_o!=''?
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <img src={'/images/objects/'+item.sprite_o}/>
+                                                        {item.nombre_o}
+                                                    </div>
+                                                </div>
+                                                :<></>}
+                                            </div>
+                                            <div className='col-md-10 align-self-center'>
+                                                <img src={'/images/sprites/'+item.sprite} width={96} height={96}/>
+                                                {item.nombre}
+                                            </div>
+                                        </>
                                     )
                                 })
 
