@@ -180,6 +180,13 @@ class IndexController extends Controller
                 }
             }
         }
+        for($i =0;$i<sizeof($resistant);$i++){
+            for($j =0;$j<sizeof($inmune);$j++){
+                if($resistant[$i]->id==$inmune[$j]->id){
+                    array_splice($resistant,$i,1);
+                }
+            }
+        }
         return array_merge(array_merge(array_merge(array_merge([$inmune],[$very_resistant]),[$resistant]),[$efective]),[$very_efective]);
     }
 
