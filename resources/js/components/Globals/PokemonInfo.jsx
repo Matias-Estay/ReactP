@@ -365,8 +365,9 @@ export default function PokemonInfo(props) {
                                         evolutions[0].map((item,index, array)=>{
                                             return(
                                                 <>
-                                                {item.mega==0 && item.alola==0 && item.hisui==0 && item.galarian==0 && item.paldea==0?
+                                                {item.mega==0?
                                                     <>
+                                                    {index == 0 || (array[index-1]!=undefined && array[index-1].pokedex!=array[index].pokedex)?
                                                         <div className='col-md-1 align-self-center text-center' key={item.id}>
                                                             <div className="row justify-content-center">
                                                                 <div className="col-md-12">
@@ -374,30 +375,114 @@ export default function PokemonInfo(props) {
                                                                 </div>
                                                             </div>
                                                             <div className="row justify-content-center">
-                                                                {item.nombre}
+                                                                {array[index].nombre}
                                                             </div>
-                                                            <div className="row justify-content-center">
-                                                                {item.condicion}
-                                                            </div>
+                                                            {array[index+1]!=undefined && (array[index+1].alola==1 || array[index+1].hisui==1 || array[index+1].galarian==1 || array[index+1].paldea==1)?
+                                                                <>
+                                                                    <div className="row justify-content-center">
+                                                                        <div className="col-md-12">
+                                                                            <img src={'/images/sprites/'+array[index+1].sprite} width={96} height={96}/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="row justify-content-center">
+                                                                        {array[index+1].nombre}
+                                                                    </div>
+                                                                </>
+                                                            :<></>
+                                                            }
                                                         </div>
-                                                            {index!=evolutions[0].length-1?
+                                                        :<></>
+                                                    }
+                                                            {(index!=evolutions[0].length-1 && array[index-1]!=undefined && array[index-1].id!=array[index].id) || index==0?
                                                                 <div className="col-md-2 align-self-center text-center">
-                                                                    <ArrowForwardIcon/>
-                                                                    {item.nivel!='0'?
-                                                                        <div className="row justify-content-center">
-                                                                            <p className='pokemon-solid'>{item.nivel!=undefined?'Lv:':''}{item.nivel}</p>
-                                                                        </div>
-                                                                    :<></>
+                                                                    {
+                                                                        array[index+1].id==array[index].id?
+                                                                        <>
+                                                                            <ArrowForwardIcon/>
+                                                                            {item.nivel!='0'?
+                                                                                <div className="row justify-content-center">
+                                                                                    <p className='pokemon-solid'>{item.nivel!=undefined?'Lv:':''}{item.nivel}</p>
+                                                                                </div>
+                                                                            :<></>
+                                                                            }
+                                                                            {item.item!=undefined && item.item!=''?
+                                                                                <div className="row justify-content-center">
+                                                                                    <div className="col-md-12">
+                                                                                        <img src={'/images/objects/'+item.sprite_item}/>
+                                                                                        {item.item}
+                                                                                    </div>
+                                                                                </div>
+                                                                            :<></>
+                                                                            }
+                                                                            {item.condicion!=undefined && item.condicion!=''?
+                                                                                <div className="row justify-content-center">
+                                                                                    <div className="col-md-12">
+                                                                                        {item.condicion}
+                                                                                    </div>
+                                                                                </div>
+                                                                            :<></>
+                                                                            }
+                                                                             <ArrowForwardIcon/>
+                                                                            {array[index+1].nivel!='0'?
+                                                                                <div className="row justify-content-center">
+                                                                                    <p className='pokemon-solid'>{array[index+1].nivel!=undefined?'Lv:':''}{array[index+1].nivel}</p>
+                                                                                </div>
+                                                                            :<></>
+                                                                            }
+                                                                            {array[index+1].item!=undefined && array[index+1].item!=''?
+                                                                                <div className="row justify-content-center">
+                                                                                    <div className="col-md-12">
+                                                                                        <img src={'/images/objects/'+array[index+1].sprite_item}/>
+                                                                                        {array[index+1].item}
+                                                                                    </div>
+                                                                                </div>
+                                                                            :<></>
+                                                                            }
+                                                                            {array[index+1].condicion!=undefined && array[index+1].condicion!=''?
+                                                                                <div className="row justify-content-center">
+                                                                                    <div className="col-md-12">
+                                                                                        {array[index+1].condicion}
+                                                                                    </div>
+                                                                                </div>
+                                                                            :<></>
+                                                                            }
+                                                                        </>
+                                                                        :
+                                                                        <>
+                                                                            {(array[index+1]!=undefined && array[index-1]!=undefined && (array[index+1].pokedex!=array[index].pokedex && array[index-1].pokedex!=array[index].pokedex) || index==0 || array[index+1].mega==1)?
+                                                                            <>
+                                                                                <ArrowForwardIcon/>
+                                                                                {item.nivel!='0'?
+                                                                                    <div className="row justify-content-center">
+                                                                                        <p className='pokemon-solid'>{item.nivel!=undefined?'Lv:':''}{item.nivel}</p>
+                                                                                    </div>
+                                                                                :<></>
+                                                                                }
+                                                                                {item.item!=undefined && item.item!=''?
+                                                                                    <div className="row justify-content-center">
+                                                                                        <div className="col-md-12">
+                                                                                            <img src={'/images/objects/'+item.sprite_item}/>
+                                                                                            {item.item}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                :<></>
+                                                                                }
+                                                                                {item.condicion!=undefined && item.condicion!=''?
+                                                                                    <div className="row justify-content-center">
+                                                                                        <div className="col-md-12">
+                                                                                            {item.condicion}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                :<></>
+                                                                                }
+                                                                            </>
+                                                                                :
+                                                                            <></>
+                                                                            }
+
+                                                                        </>
                                                                     }
-                                                                    {item.item!=undefined && item.item!=''?
-                                                                        <div className="row justify-content-center">
-                                                                            <div className="col-md-12">
-                                                                                <img src={'/images/objects/'+item.sprite_item}/>
-                                                                                {item.item}
-                                                                            </div>
-                                                                        </div>
-                                                                    :<></>
-                                                                    }
+
                                                                 </div>
 
                                                             :
@@ -405,33 +490,25 @@ export default function PokemonInfo(props) {
                                                             }
                                                     </>
                                                     :
-                                                        item.mega==1 || item.alola==1 || item.hisui==1 || item.galarian==1 || item.paldea==1?
-                                                        <>
-                                                            {index%4==0?
-                                                            <div className="col-md-9"/>
-                                                            :
-                                                            <></>
-                                                            }
-                                                                <div className="col-md-2 text-center">
-                                                                    <div className="row justify-content-center">
-                                                                        <div className="col-md-12">
-                                                                            <img src={'/images/sprites/'+item.sprite} width={96} height={96}/>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row justify-content-center">
-                                                                        <div className="col-md-12">
-                                                                            {item.nombre}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row justify-content-center">
-                                                                        <div className="col-md-12">
-                                                                            {item.condicion}
-                                                                        </div>
-                                                                    </div>
+                                                    <>
+                                                        {index%4==0 && item.alola==0 && item.hisui==0 && item.galarian==0 && item.paldea==0?
+                                                        <div className="col-md-9"/>
+                                                        :
+                                                        <></>
+                                                        }
+                                                        <div className="col-md-2 text-center">
+                                                            <div className="row justify-content-center">
+                                                                <div className="col-md-12">
+                                                                    <img src={'/images/sprites/'+item.sprite} width={96} height={96}/>
                                                                 </div>
-                                                        </>
-                                                            :
-                                                            <></>
+                                                            </div>
+                                                            <div className="row justify-content-center">
+                                                                <div className="col-md-12">
+                                                                    {item.nombre}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </>
 
                                                 }
                                                 </>
