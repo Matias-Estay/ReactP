@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Radar } from 'react-chartjs-2';
+import Weakness from './Weakness.jsx';
 import Loader from './Loader.jsx';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
@@ -200,228 +201,209 @@ export default function PokemonInfo(props) {
         <div className="container-fluid p-3">
             <div className="row">
                 <div className="col-md-12">
-                <div className="accordion" id="accordionPanelsStayOpenExample">
-                    <div className="accordion-item">
-                    <h2 className="accordion-header" id="panelsStayOpen-headingOne">
-                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                        Types
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                        <div className="accordion-body">
-                        <Button variant="contained" style={{backgroundColor:dataP.tipo_1_color, marginRight: '20px' ,minWidth:'140px'}}>
-                            {dataP.tipo_1}
-                        </Button>
-                        {dataP.tipo_2 != "" ?
-                            <Button variant="contained" style={{backgroundColor:dataP.tipo_2_color,minWidth:'140px'}}>
-                            {dataP.tipo_2}
+                    <div className="accordion" id="accordionPanelsStayOpenExample">
+                        <div className="accordion-item">
+                            <h2 className="accordion-header" id="panelsStayOpen-headingOne">
+                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                Types
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                            <div className="accordion-body">
+
+                            <Button variant="contained" style={{backgroundColor:dataP.tipo_1_color,color:dataP.tipo_1_color_l, marginRight: '20px' ,minWidth:'140px'}}>
+                                {dataP.tipo_1}
                             </Button>
-                            :''
-                        }
-                        </div>
-                    </div>
-                    </div>
-                    <div className="accordion-item">
-                    <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                        Abilities
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                        <Box sx={{ width: '100%' }}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={valuetab} onChange={handleChange}>
-                                <Tab label={dataP.h1n}  id={'simple-tab-'+0} aria-controls ={'simple-tabpanel-'+0}/>
-                                {dataP.h2n!=''?
-                                <Tab label={dataP.h2n} id={'simple-tab-'+1} aria-controls ={'simple-tabpanel-'+1}/>
+                            {dataP.tipo_2 != "" ?
+                                <Button variant="contained" style={{backgroundColor:dataP.tipo_2_color,color:dataP.tipo_2_color_l,minWidth:'140px'}}>
+                                {dataP.tipo_2}
+                                </Button>
                                 :''
-                                }
-                                {dataP.h3n!=''?
-                                <Tab label={dataP.h3n} id={'simple-tab-'+2} aria-controls ={'simple-tabpanel-'+2}/>
-                                :''
-                                }
-                                </Tabs>
-                            </Box>
-                            <TabPanel value={valuetab} index={0}>
-                                {dataP.h1d}
-                            </TabPanel>
-                            {dataP.h2d!=''?
-                            <TabPanel value={valuetab} index={1}>
-                                {dataP.h2d}
-                            </TabPanel>:''
                             }
-                            {dataP.h3d!=''?
-                            <TabPanel value={valuetab} index={2}>
-                                {dataP.h3d}
-                            </TabPanel>:''
-                            }
-                        </Box>
-                    </div>
-                    </div>
-                    <div className="accordion-item">
-                    <h2 className="accordion-header" id="panelsStayOpen-headingThree">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                        Effectiveness
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                        <div className="accordion-body" style={{overflow:'overlay'}}>
-                            <table className="table">
-                                <thead className="thead-dark">
-                                <tr>
-                                    <th scope="col">Base Type</th>
-                                    <th scope="col">Strong Against</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">
-                                    {effective_t1.length==0?'':
-                                    <Button variant="contained" className='mt-2' style={{backgroundColor:effective_t1[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
-                                        {effective_t1[0].type}
-                                    </Button>}
-                                    </th>
-                                    <td>
-                                    {effective_t1.map(x=>
-                                        (
-                                        <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px'}} key={x.efective}>
-                                        {x.efective}
-                                        </Button>
-                                        )
-                                    )
-                                    }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                    {effective_t2.length==0?'':
-                                    <Button variant="contained" className='mt-2' style={{backgroundColor:effective_t2[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
-                                        {effective_t2[0].type}
-                                    </Button>}
-                                    </th>
-                                    <td>
-                                    {effective_t2.map(x=>
-                                        (
-                                        <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px'}} key={x.efective}>
-                                        {x.efective}
-                                        </Button>
-                                        )
-                                    )
-                                    }
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    </div>
-                    <div className="accordion-item">
-                    <h2 className="accordion-header" id="panelsStayOpen-headingFour">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                        Weaknesses
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
-                        <div className="accordion-body" style={{overflow:'overlay'}}>
-                        {weaknesses.map(x=>
-                        (
-                            <div key={x.id+20}>
-                                {x.multiplicador!=undefined && x.multiplicador!=1 && x.multiplicador!=0?
-                                    <div className="row mt-5 justify-content-center" key={x.id+100}>
-                                        <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}}>
-                                            {x.nombre+" "}  {"x"+x.multiplicador}
-                                        </Button>
-                                        {
-                                            x.multiplicador=='4'?
-                                            <p className='pokemon-solid' style={{minWidth:'140px', maxWidth:'140px'}}>Super Effective!</p>
-                                            :
-                                            <p className='pokemon-solid' style={{minWidth:'140px', maxWidth:'140px'}}>Effective</p>
-                                        }
-                                    </div>
-                                    :
-                                    ''
-                                }
                             </div>
-                        )
-                        )
-                        }
+                            </div>
                         </div>
-                    </div>
-                    </div>
-                    <div className="accordion-item">
-                    <h2 className="accordion-header" id="panelsStayOpen-headingFive">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-                        Evolutions
-                        </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
-                        <div className="accordion-body">
-                            <div className='container-fluid' >
-                                <div className="row">
-                                    {
-                                        evolutions.map((item,index,array_t)=>{
-                                            return(
-                                                <div className="col-md-3">
-                                                    {item.map((item_f,index2,array)=>{
-                                                        return(
-                                                            <div className="row" style={{minWidth:96, minHeight:96, maxHeight:115}}>
-                                                                {index2==0 || (array[index2-1]!=undefined && array[index2].id!=array[index2-1].id)?
-                                                                    <div className="col-md-6 align-self-center text-center">
-                                                                        <div className="row justify-content-center">
-                                                                            <div className="col-md-12 text-center">
-                                                                                <img className='hand' onClick={()=>{window.open('/pokemon?id='+item_f.id)}} src={"images/sprites/"+item_f.sprite} width={96} height={96}/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="row justify-content-center">
-                                                                            <div className="col-md-12 text-center">
-                                                                                {item_f.nombre}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                :<div className="col-md-6 align-self-center text-center" style={{minWidth:96, minHeight:96, maxHeight:115}}/>}
-                                                                {array_t[index+1]!=undefined && array_t[index+1].length>0?
-                                                                    <div className="col-md-6 align-self-center text-center mt-4" style={{minWidth:96, minHeight:96, maxHeight:115}}>
-                                                                        <div className="row justify-content-center">
-                                                                            <div className="col-md-12 text-center">
-                                                                                <ArrowForwardIcon/>
-                                                                            </div>
-                                                                        </div>
-                                                                        {item_f.nivel!=0?
-                                                                            <div className="row justify-content-center">
-                                                                                <div className="col-md-12 text-center">
-                                                                                    <p className='pokemon-solid'>Lv: {item_f.nivel}</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        :<></>}
-                                                                        {item_f.sprite_item!=''?
-                                                                            <div className="row justify-content-center">
-                                                                                <div className="col-md-12 text-center">
-                                                                                    <img src={"images/objects/"+item_f.sprite_item}/>
-                                                                                    <p>{item_f.item}</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        :<></>}
-                                                                        <div className="row justify-content-center">
-                                                                            <div className="col-md-12 text-center">
-                                                                                <p >{item_f.condicion}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                :<></>
-                                                                }
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-                                            )
-                                        })
+                        <div className="accordion-item">
+                            <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
+                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                Abilities
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <Box sx={{ width: '100%' }}>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                    <Tabs value={valuetab} onChange={handleChange}>
+                                    <Tab label={dataP.h1n}  id={'simple-tab-'+0} aria-controls ={'simple-tabpanel-'+0}/>
+                                    {dataP.h2n!=''?
+                                    <Tab label={dataP.h2n} id={'simple-tab-'+1} aria-controls ={'simple-tabpanel-'+1}/>
+                                    :''
                                     }
+                                    {dataP.h3n!=''?
+                                    <Tab label={dataP.h3n} id={'simple-tab-'+2} aria-controls ={'simple-tabpanel-'+2}/>
+                                    :''
+                                    }
+                                    </Tabs>
+                                </Box>
+                                <TabPanel value={valuetab} index={0}>
+                                    {dataP.h1d}
+                                </TabPanel>
+                                {dataP.h2d!=''?
+                                <TabPanel value={valuetab} index={1}>
+                                    {dataP.h2d}
+                                </TabPanel>:''
+                                }
+                                {dataP.h3d!=''?
+                                <TabPanel value={valuetab} index={2}>
+                                    {dataP.h3d}
+                                </TabPanel>:''
+                                }
+                            </Box>
+                            </div>
+                        </div>
+                        <div className="accordion-item">
+                            <h2 className="accordion-header" id="panelsStayOpen-headingThree">
+                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                Effectiveness
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                <div className="accordion-body" style={{overflow:'overlay'}}>
+                                    <table className="table">
+                                        <thead className="thead-dark">
+                                        <tr>
+                                            <th scope="col" className='pokemon-solid'>Base Type</th>
+                                            <th scope="col" className='pokemon-solid'>Strong Against</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                            {effective_t1.length==0?'':
+                                            <Button variant="contained" className='mt-2' style={{backgroundColor:effective_t1[0].color_type, color:effective_t1[0].color_letra, marginRight: '20px' ,minWidth:'140px'}}>
+                                                {effective_t1[0].type}
+                                            </Button>}
+                                            </th>
+                                            <td>
+                                            {effective_t1.map(x=>
+                                                (
+                                                <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, color:x.color_letra, marginRight: '20px' ,minWidth:'140px'}} key={x.efective}>
+                                                    {x.efective}
+                                                </Button>
+                                                )
+                                            )
+                                            }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                            {effective_t2.length==0?'':
+                                            <Button variant="contained" className='mt-2' style={{backgroundColor:effective_t2[0].color_type, marginRight: '20px' ,minWidth:'140px'}}>
+                                                {effective_t2[0].type}
+                                            </Button>}
+                                            </th>
+                                            <td>
+                                            {effective_t2.map(x=>
+                                                (
+                                                <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, color:x.color_letra, marginRight: '20px' ,minWidth:'140px'}} key={x.efective}>
+                                                {x.efective}
+                                                </Button>
+                                                )
+                                            )
+                                            }
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="accordion-item">
+                            <h2 className="accordion-header" id="panelsStayOpen-headingFour">
+                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                Weaknesses
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                                <div className="accordion-body" style={{overflow:'overlay'}}>
+                                    <Weakness weaknesses={weaknesses}></Weakness>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="accordion-item">
+                            <h2 className="accordion-header" id="panelsStayOpen-headingFive">
+                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                                Evolutions
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                                <div className="accordion-body">
+                                    <div className='container-fluid' >
+                                        <div className="row">
+                                            {
+                                            evolutions.map((item,index,array_t)=>{
+                                                return(
+                                                    <div className="col-md-3">
+                                                        {item.map((item_f,index2,array)=>{
+                                                            return(
+                                                                <div className="row" style={{minWidth:96, minHeight:96}}>
+                                                                    {index2==0 || (array[index2-1]!=undefined && array[index2].id!=array[index2-1].id)?
+                                                                        <div className="col-md-6 align-self-center text-center">
+                                                                            <div className="row justify-content-center">
+                                                                                <div className="col-md-12 text-center">
+                                                                                    <img className='hand' onClick={()=>{window.open('/pokemon?id='+item_f.id)}} src={"images/sprites/"+item_f.sprite} width={96} height={96}/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="row justify-content-center">
+                                                                                <div className="col-md-12 text-center">
+                                                                                    {item_f.nombre}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    :<div className="col-md-6 align-self-center text-center" style={{minWidth:96, minHeight:96}}/>}
+                                                                    {array_t[index+1]!=undefined && array_t[index+1].length>0?
+                                                                        <div className="col-md-6 align-self-center text-center mt-3" style={{minWidth:96, minHeight:96}}>
+                                                                            <div className="row justify-content-center">
+                                                                                <div className="col-md-12 text-center">
+                                                                                    <ArrowForwardIcon/>
+                                                                                </div>
+                                                                            </div>
+                                                                            {item_f.nivel!=0?
+                                                                                <div className="row justify-content-center">
+                                                                                    <div className="col-md-12 text-center">
+                                                                                        <p className='pokemon-solid'>Lv: {item_f.nivel}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            :<></>}
+                                                                            {item_f.sprite_item!=''?
+                                                                                <div className="row justify-content-center">
+                                                                                    <div className="col-md-12 text-center">
+                                                                                        <img src={"images/objects/"+item_f.sprite_item}/>
+                                                                                        <p>{item_f.item}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            :<></>}
+                                                                            <div className="row justify-content-center">
+                                                                                <div className="col-md-12 text-center">
+                                                                                    <p >{item_f.condicion}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    :<></>
+                                                                    }
+                                                                </div>
+
+                                                            )
+                                                        })}
+                                                    </div>
+                                                )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                </div>
                 </div>
             </div>
             <div className="row justify-content-center mt-2">

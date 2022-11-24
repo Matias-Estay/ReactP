@@ -38,7 +38,7 @@ class IndexController extends Controller
             p.velocidad as spd, p.exp_100 as exp_max, p.legendario, p.mega,
             p.alola, p.galarian, p.variante, p.altura,
             p.peso, p.sprite, p.generacion, t.nombre as tipo_1,
-            t.color as tipo_1_color,  t2.nombre as tipo_2, t2.color as tipo_2_color,
+            t.color as tipo_1_color, t.color_letra as tipo_1_color_l,  t2.nombre as tipo_2, t2.color as tipo_2_color, t2.color_letra as tipo_2_color_l,
             h1t.nombre as h1n, h1t.descripcion as h1d, h2t.nombre as h2n, h2t.descripcion as h2d,
             h3t.nombre as h3n, h3t.descripcion as h3d,
             '-1' as favorite
@@ -56,7 +56,7 @@ class IndexController extends Controller
             p.velocidad as spd, p.exp_100 as exp_max, p.legendario, p.mega,
             p.alola, p.galarian, p.variante, p.altura,
             p.peso, p.sprite, p.generacion, t.nombre as tipo_1,
-            t.color as tipo_1_color,  t2.nombre as tipo_2, t2.color as tipo_2_color,
+            t.color as tipo_1_color, t.color_letra as tipo_1_color_l,  t2.nombre as tipo_2, t2.color as tipo_2_color, t2.color_letra as tipo_2_color_l,
             h1t.nombre as h1n, h1t.descripcion as h1d, h2t.nombre as h2n, h2t.descripcion as h2d,
             h3t.nombre as h3n, h3t.descripcion as h3d,
             (SELECT id from favoritos where id_usuario=$user->id and id_pokemon=$data->id) as favorite
@@ -74,15 +74,15 @@ class IndexController extends Controller
     public function get_datapokemontableE(Request $data){
         $effective_1 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'type',
         (SELECT t2.color FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'color_type',
-        t.nombre as efective, t.color , e.multiplicador as multiplier
+        t.nombre as efective, t.color , t.color_letra, e.multiplicador as multiplier
         FROM efectividades as e
         inner join pokemones as p on p.id_tipo_1=e.id_tipo
         inner join tipos as t on e.id_tipo_efectivo=t.id
-        where p.id=$data->id and e.multiplicador>=2;");
+        where p.id=$data->id and e.multiplicador>=2");
 
         $effective_2 = DB::SELECT("SELECT (SELECT t2.nombre FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'type',
         (SELECT t2.color FROM tipos as t2 WHERE t2.id = e.id_tipo) as 'color_type',
-        t.nombre as efective, t.color , e.multiplicador as multiplier
+        t.nombre as efective, t.color , t.color_letra, e.multiplicador as multiplier
         FROM efectividades as e
         inner join pokemones as p on p.id_tipo_2=e.id_tipo
         inner join tipos as t on e.id_tipo_efectivo=t.id
@@ -112,35 +112,75 @@ class IndexController extends Controller
     // }
 
     public function get_types(){
-        $data = DB::SELECT("SELECT * from tipos where tipos.nombre<>''");
+        $data = DB::SELECT("SELECT * from tipos where tipos.nombre<>'' order by tipos.nombre");
         return $data;
     }
 
     public function get_typesweakness(Request $data){
-        $r = DB::SELECT("SELECT * FROM efectividades as e where multiplicador<=0.5;");
-        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_1 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
-        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_2 and e.id_tipo_efectivo<>0 and e.multiplicador=2.0) as ef inner join tipos as t on ef.id_tipo=t.id");
+        $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_1 and e.id_tipo_efectivo<>0 ) as ef inner join tipos as t on ef.id_tipo=t.id");
+        $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_2 and e.id_tipo_efectivo<>0 ) as ef inner join tipos as t on ef.id_tipo=t.id");
         $dfinal = array_merge($d1,$d2);
-        // dd($r);
-        // Resistances
-        for($i =0;$i<sizeof($dfinal);$i++){
-            for($j=0;$j<sizeof($r);$j++){
-                if($dfinal[$i]->id==$r[$j]->id_tipo && ($r[$j]->id_tipo_efectivo==$data->type_1 || $r[$j]->id_tipo_efectivo==$data->type_2)){
-                    $dfinal[$i]->multiplicador = $dfinal[$i]->multiplicador * $r[$j]->multiplicador;
-                }
+        $inmune=[];
+        $inmune = array_filter($dfinal, function($item){
+            return $item->multiplicador == 0;
+        });
+        usort($inmune , function ($a, $b) {
+            return $a->id>=$b->id;
+        });
+        $very_resistant=[];
+        $resistant = array_filter($dfinal, function($item){
+            return $item->multiplicador == 0.5;
+        });
+        usort($resistant , function ($a, $b) {
+            return $a->id>=$b->id;
+        });
+        $resistant = array_values($resistant);
+        $efective = array_filter($dfinal, function($item){
+            return $item->multiplicador == 2;
+        });
+        usort($efective , function ($a, $b) {
+            return $a->id>=$b->id;
+        });
+        $efective = array_values($efective);
+        $very_efective=[];
+        for($i =1;$i<sizeof($resistant);$i++){
+            if($resistant[$i]->id==$resistant[$i-1]->id){
+                $resistant[$i]->multiplicador=0.25;
+                array_push($very_resistant,$resistant[$i]);
+                unset($resistant[$i]);
+                unset($resistant[$i-1]);
+                $resistant = array_values($resistant);
+                $i=0;
             }
         }
-        //REPEATED WEAKNESS
-        for($i =0;$i<sizeof($dfinal);$i++){
-            for($j =$i+1;$j<sizeof($dfinal);$j++){
-                if($dfinal[$i]->id==$dfinal[$j]->id){
-                    array_splice($dfinal,$j,1);
-                    $dfinal[$i]->multiplicador='4';
+        for($i =1;$i<sizeof($efective);$i++){
+            if($efective[$i]->id==$efective[$i-1]->id){
+                $efective[$i]->multiplicador=4;
+                array_push($very_efective,$efective[$i]);
+                unset($efective[$i]);
+                unset($efective[$i-1]);
+                $efective = array_values($efective);
+                $i=0;
+            }
+        }
+        //Resistance vs Weakness
+        for($i =0;$i<sizeof($efective);$i++){
+            for($j =0;$j<sizeof($resistant);$j++){
+                if($efective[$i]->id==$resistant[$j]->id){
+                    array_splice($efective,$i,1);
+                    array_splice($resistant,$j,1);
                 }
             }
         }
         //INMUNITY
-        return $dfinal;
+        for($i =0;$i<sizeof($efective);$i++){
+            for($j =0;$j<sizeof($inmune);$j++){
+                if($efective[$i]->id==$inmune[$j]->id){
+                    array_splice($efective,$i,1);
+                }
+            }
+        }
+        return array_merge(array_merge(array_merge(array_merge([$inmune],[$very_resistant]),[$resistant]),[$efective]),[$very_efective]);
     }
 
     public function deletefavorite(Request $data){

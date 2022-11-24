@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
+import Weakness from './Globals/Weakness.jsx';
 
 function Types(){
     const [options_type, setOptions_type] = React.useState([]);
@@ -83,31 +83,7 @@ function Types(){
             <div className="container-fluid card-body mt-5">
                 <h4>Weaknesses</h4>
                 <hr/>
-
-                <div className="container-fluid">
-                {weaknesses.map(x=>
-                    (
-                        <div key={x.id+100}>
-                            {x.multiplicador!=undefined && x.multiplicador!=1 && x.multiplicador!=0?
-                                <div className="row mt-5 justify-content-center" >
-                                    <Button variant="contained" className='mt-2' style={{backgroundColor:x.color, marginRight: '20px' ,minWidth:'140px', maxWidth:'140px'}}>
-                                        {x.nombre+" "}  {"x"+x.multiplicador}
-                                    </Button>
-                                    {
-                                        x.multiplicador=='4'?
-                                        <p className='pokemon-solid' style={{minWidth:'140px', maxWidth:'140px'}}>Super Effective!</p>
-                                        :
-                                        <p className='pokemon-solid' style={{minWidth:'140px', maxWidth:'140px'}}>Effective</p>
-                                    }
-                                </div>
-                                :
-                                ''
-                            }
-                        </div>
-                    )
-                )
-                }
-                </div>
+                <Weakness weaknesses={weaknesses}></Weakness>
             </div>
         </div>
     )
