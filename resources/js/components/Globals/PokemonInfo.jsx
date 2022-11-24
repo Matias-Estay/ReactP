@@ -369,7 +369,7 @@ export default function PokemonInfo(props) {
                                                                     <div className="col-md-6 align-self-center text-center">
                                                                         <div className="row justify-content-center">
                                                                             <div className="col-md-12 text-center">
-                                                                                <img src={"images/sprites/"+item_f.sprite} width={96} height={96}/>
+                                                                                <img className='hand' onClick={()=>{window.open('/pokemon?id='+item_f.id)}} src={"images/sprites/"+item_f.sprite} width={96} height={96}/>
                                                                             </div>
                                                                         </div>
                                                                         <div className="row justify-content-center">

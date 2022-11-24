@@ -56,6 +56,10 @@
     font-family:'pokemon-solid';
 }
 
+.hand:hover{
+    cursor: pointer;
+}
+
 .box-overlay{
     position: absolute;
     height: 100vh;
