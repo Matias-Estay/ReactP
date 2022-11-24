@@ -364,12 +364,12 @@ export default function PokemonInfo(props) {
                                                 <div className="col-md-3">
                                                     {item.map((item_f,index2,array)=>{
                                                         return(
-                                                            <div className="row">
+                                                            <div className="row" style={{minWidth:96, minHeight:96, maxHeight:115}}>
                                                                 {index2==0 || (array[index2-1]!=undefined && array[index2].id!=array[index2-1].id)?
                                                                     <div className="col-md-6 align-self-center text-center">
                                                                         <div className="row justify-content-center">
                                                                             <div className="col-md-12 text-center">
-                                                                                <img src={"images/sprites/"+item_f.sprite}/>
+                                                                                <img src={"images/sprites/"+item_f.sprite} width={96} height={96}/>
                                                                             </div>
                                                                         </div>
                                                                         <div className="row justify-content-center">
@@ -378,9 +378,9 @@ export default function PokemonInfo(props) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                :<div className="col-md-6 align-self-center text-center"/>}
+                                                                :<div className="col-md-6 align-self-center text-center" style={{minWidth:96, minHeight:96, maxHeight:115}}/>}
                                                                 {array_t[index+1]!=undefined && array_t[index+1].length>0?
-                                                                    <div className="col-md-6 align-self-center text-center">
+                                                                    <div className="col-md-6 align-self-center text-center mt-4" style={{minWidth:96, minHeight:96, maxHeight:115}}>
                                                                         <div className="row justify-content-center">
                                                                             <div className="col-md-12 text-center">
                                                                                 <ArrowForwardIcon/>
@@ -394,18 +394,12 @@ export default function PokemonInfo(props) {
                                                                             </div>
                                                                         :<></>}
                                                                         {item_f.sprite_item!=''?
-                                                                            <>
-                                                                                <div className="row justify-content-center">
-                                                                                    <div className="col-md-12 text-center">
-                                                                                        <img src={"images/objects/"+item_f.sprite_item}/>
-                                                                                    </div>
+                                                                            <div className="row justify-content-center">
+                                                                                <div className="col-md-12 text-center">
+                                                                                    <img src={"images/objects/"+item_f.sprite_item}/>
+                                                                                    <p>{item_f.item}</p>
                                                                                 </div>
-                                                                                <div className="row justify-content-center">
-                                                                                    <div className="col-md-12 text-center">
-                                                                                        <p>{item_f.item}</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </>
+                                                                            </div>
                                                                         :<></>}
                                                                         <div className="row justify-content-center">
                                                                             <div className="col-md-12 text-center">
