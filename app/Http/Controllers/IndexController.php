@@ -167,10 +167,13 @@ class IndexController extends Controller
         for($i =0;$i<sizeof($efective);$i++){
             for($j =0;$j<sizeof($resistant);$j++){
                 if($efective[$i]->id==$resistant[$j]->id){
-                    array_splice($efective,$i,1);
-                    array_splice($resistant,$j,1);
+                    unset($efective[$i]);
+                    unset($resistant[$j]);
+                    $efective = array_values($efective);
+                    $i=0;
                 }
             }
+            $resistant = array_values($resistant);
         }
         //INMUNITY
         for($i =0;$i<sizeof($efective);$i++){
