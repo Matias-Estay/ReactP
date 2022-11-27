@@ -77,7 +77,7 @@ function Search(){
         if(favorites){
             var filtered = filtered.filter(x=>{return x.favorite != null});
         }
-        if(selected_generation){
+        if(selected_generation!='Select...'){
             var filtered = filtered.filter(x=>{return x.generacion == selected_generation});
         }
         if(selected_type_1!=0 && selected_type_2!=0){
