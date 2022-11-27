@@ -59,7 +59,10 @@
 .hand:hover{
     cursor: pointer;
 }
-
+.sprite{
+    max-width: 96px;
+    max-height: 96px;
+}
 .box-overlay{
     position: absolute;
     height: 100vh;

@@ -140,11 +140,11 @@ export default function PokemonInfo(props) {
   };
 
   const data = {
-    labels: ['HP','ATK','DEF','SP.A','SP.D','SPD' ],
+    labels: ['HP','ATK','DEF','SPD','SP.D','SP.A' ],
     datasets: [
       {
         label: 'stats',
-        data:[dataP.hp, dataP.atk, dataP.def, dataP.sp_atk, dataP.sp_def, dataP.spd],
+        data:[dataP.hp, dataP.atk, dataP.def, dataP.spd, dataP.sp_def, dataP.sp_atk],
         fill: true,
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgb(54, 162, 235)',
@@ -173,7 +173,7 @@ export default function PokemonInfo(props) {
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src={'/images/sprites/'+dataP.sprite} width={96} height={96}/>
+                <img className='sprite' src={'/images/sprites/'+dataP.sprite}/>
                 {dataP.nombre}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -351,7 +351,7 @@ export default function PokemonInfo(props) {
                                                                         <div className="col-md-6 align-self-center text-center" >
                                                                             <div className="row justify-content-center">
                                                                                 <div className="col-md-12 text-center">
-                                                                                    <img className='hand' onClick={()=>{window.open('/pokemon?id='+item_f.id)}} src={"images/sprites/"+item_f.sprite} width={96} height={96}/>
+                                                                                    <img className='hand sprite' onClick={()=>{window.open('/pokemon?id='+item_f.id)}} src={"images/sprites/"+item_f.sprite}/>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row justify-content-center">

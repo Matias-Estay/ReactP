@@ -208,7 +208,7 @@ function Search(){
                                 {row.pokedex} - {row.nombre}
                             </TableCell>
                             <TableCell align="left">
-                                <img src={'/images/sprites/'+ String(row.sprite)} width={96} height={96}></img>
+                                <img className='sprite' src={'/images/sprites/'+ String(row.sprite)}></img>
                             </TableCell>
                             <TableCell align="center">
                                 <PokedexModal id={row.id} Update_data={Update_data}/>
