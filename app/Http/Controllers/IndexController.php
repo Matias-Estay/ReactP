@@ -116,6 +116,11 @@ class IndexController extends Controller
         return $data;
     }
 
+    public function get_generations(){
+        $data = DB::SELECT("SELECT p.generacion FROM pokemones as p group by p.generacion order by p.generacion;");
+        return $data;
+    }
+
     public function get_typesweakness(Request $data){
         $d1 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_1 and e.id_tipo_efectivo<>0 ) as ef inner join tipos as t on ef.id_tipo=t.id");
         $d2 = DB::SELECT("SELECT t.*, ef.multiplicador FROM (SELECT e.id_tipo, e.multiplicador FROM efectividades as e where e.id_tipo_efectivo=$data->type_2 and e.id_tipo_efectivo<>0 ) as ef inner join tipos as t on ef.id_tipo=t.id");

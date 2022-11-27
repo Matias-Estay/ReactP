@@ -24,7 +24,9 @@ function Search(){
     const [favorites, setFavorites] = useState(false);
     const [selected_type_1, setSelected_type_1] = React.useState(0);
     const [selected_type_2, setSelected_type_2] = React.useState(0);
+    const [selected_generation, setGeneration] = React.useState(0);
     const [options_type, setOptions_type] = useState([]);
+    const [options_generation, setOptions_generation] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(6);
     const [items, setItems] = useState([]);
     const [search_input,setSearch_input] = useState("");
@@ -40,6 +42,10 @@ function Search(){
             resultado.data.push({id:0,nombre:'Select...'});
             setOptions_type(resultado.data);
         });
+        window.axios.get('/AllGenerations').then(resultado=>{
+            resultado.data.push({id:0,nombre:'Select...'});
+            setOptions_generation(resultado.data);
+        });
     };
 
     const Select_Type_Change = (event) => {
@@ -49,6 +55,9 @@ function Search(){
                 break;
             case "Type_2-name":
                 setSelected_type_2(event.target.value);
+                break;
+            case 'Generation-name':
+                setGeneration(event.target.value);
                 break;
         }
     };
@@ -67,6 +76,9 @@ function Search(){
         var filtered = items.filter(x=>{return x.nombre.toLowerCase().includes(search_input.toLowerCase().trim())});
         if(favorites){
             var filtered = filtered.filter(x=>{return x.favorite != null});
+        }
+        if(selected_generation){
+            var filtered = filtered.filter(x=>{return x.generacion == selected_generation});
         }
         if(selected_type_1!=0 && selected_type_2!=0){
             return filtered.filter(x=>{return (x.id_tipo_1 == selected_type_1 || x.id_tipo_2==selected_type_1)  && (x.id_tipo_2==selected_type_2 || x.id_tipo_1 == selected_type_2)});
@@ -101,7 +113,7 @@ function Search(){
                     <div className="col-sm-12 col-xl-3 mt-3">
                         <Input style={{width:'200px'}} placeholder='Search' value={search_input} onChange={SearchItems}/>
                     </div>
-                    <div className="col-md-2 mt-2 align-self-center">
+                    <div className="col-md-2 mt-2 col-xl-2 align-self-center">
                         <Button variant="outlined" onClick={DeleleteFilter}>
                             <FilterAltOffIcon/>
                         </Button>
@@ -109,7 +121,7 @@ function Search(){
                             <StarIcon/>
                         </Button>
                     </div>
-                    <div className="col-sm-12 col-md-12 col-xl-3 mt-3">
+                    <div className="col-sm-12 col-md-12 col-xl-2 mt-3">
                         <Box sx={{ minWidth: 120 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="Type_1-label">Type 1</InputLabel>
@@ -130,7 +142,7 @@ function Search(){
                             </FormControl>
                         </Box>
                     </div>
-                    <div className="col-sm-12 col-md-12 col-xl-3 mt-3">
+                    <div className="col-sm-12 col-md-12 col-xl-2 mt-3">
                         <Box sx={{ minWidth: 120 }}>
                             <FormControl fullWidth>
                                 <InputLabel id="Type_2-label">Type 2</InputLabel>
@@ -145,6 +157,27 @@ function Search(){
                                 {options_type.map((item)=>{
                                     return(
                                     <MenuItem value={item.id} key={item.id+10}>{item.nombre}</MenuItem>
+                                    )
+                                })}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-xl-2 mt-3">
+                        <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="Type_2-label">Generation</InputLabel>
+                                <Select
+                                labelId="Generation-label"
+                                name="Generation-name"
+                                id="Generation-id"
+                                value={selected_generation}
+                                label="Generation-id"
+                                onChange={Select_Type_Change}
+                                >
+                                {options_generation.map((item)=>{
+                                    return(
+                                    <MenuItem value={item.generacion} key={item.id+10}>{item.generacion}</MenuItem>
                                     )
                                 })}
                                 </Select>
