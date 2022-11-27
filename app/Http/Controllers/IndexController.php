@@ -45,9 +45,9 @@ class IndexController extends Controller
             FROM pokemones as p
             inner join tipos as t on p.id_tipo_1= t.id
             inner join tipos as t2 on p.id_tipo_2=t2.id
-            inner join habilidades as h1t on p.habilidad_1=h1t.id
-            inner join habilidades as h2t on p.habilidad_2=h2t.id
-            inner join habilidades as h3t on p.habilidad_3=h3t.id
+            left join habilidades as h1t on p.habilidad_1=h1t.id
+            left join habilidades as h2t on p.habilidad_2=h2t.id
+            left join habilidades as h3t on p.habilidad_3=h3t.id
             where p.id=$data->id;");
         }else{
             $data = DB::SELECT("SELECT p.pokedex, p.nombre, p.id_tipo_1, p.id_tipo_2,
@@ -211,23 +211,27 @@ class IndexController extends Controller
 
         $p_evolutions=DB::SELECT("SELECT p.id, p.nombre, p.sprite, o.nombre as nombre_o, o.sprite as sprite_o from evoluciones as e inner join pokemones as p on p.id = e.id_pokemon inner join objetos as o on o.id=e.id_item where e.id_pokemon_evoluciona_de=".$p_base[0]->base.";");
 
-        $p_ev_0 = DB::SELECT("SELECT p.sprite, p.id, p.pokedex, p.nombre, e_nivel.nivel, e_nivel.condicion, o.nombre as item, o.sprite as sprite_item, p.alola, p.hisui, p.galarian, p.paldea, p.mega FROM pokemones as p inner join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de=".$p_base[0]->base." inner join objetos as o on o.id=e_nivel.id_item WHERE p.id=".$p_base[0]->base." order by p.pokedex;");
-        $p_ev_1= DB::SELECT("SELECT p1.id , p1.nombre, p1.sprite, p1.pokedex, e_nivel.nivel, e_nivel.condicion, o.nombre as item, o.sprite as sprite_item, p1.alola, p1.hisui, p1.galarian, p1.galarian, p1.paldea, p1.mega FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon
-        left join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de = p1.id left join objetos as o on o.id=e_nivel.id_item order by e_nivel.condicion;");
-        $p_ev_2 = DB::SELECT("SELECT p2.id, p2.pokedex, p2.nombre, p2.sprite, p2.alola, p2.hisui, p2.galarian, p2.galarian, p2.paldea, p2.mega, e3.condicion, e3.nivel, o.nombre as item, o.sprite as sprite_item  FROM
+        $p_ev_0 = DB::SELECT("SELECT p.sprite, p.id, p.pokedex, p.nombre, e_nivel.nivel, e_nivel.condicion, o.nombre as item, o.sprite as sprite_item,o2.nombre as item_2, o2.sprite as sprite_item_2, p.alola, p.hisui, p.galarian, p.paldea, p.mega FROM pokemones as p inner join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de=".$p_base[0]->base." inner join objetos as o on o.id=e_nivel.id_item inner join objetos as o2 on o2.id=e_nivel.id_item_2 WHERE p.id=".$p_base[0]->base." order by e_nivel.id_pokemon;");
+        $p_ev_1= DB::SELECT("SELECT p1.id , p1.nombre, p1.sprite, p1.pokedex, e_nivel.nivel, e_nivel.condicion, o.nombre as item, o.sprite as sprite_item, o2.nombre as item_2, o2.sprite as sprite_item_2, p1.alola, p1.hisui, p1.galarian, p1.galarian, p1.paldea, p1.mega FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon
+        left join evoluciones as e_nivel on e_nivel.id_pokemon_evoluciona_de = p1.id left join objetos as o on o.id=e_nivel.id_item left join objetos as o2 on o2.id=e_nivel.id_item_2 order by p1.id;");
+        $p_ev_2 = DB::SELECT("SELECT p2.id, p2.pokedex, p2.nombre, p2.sprite, p2.alola, p2.hisui, p2.galarian, p2.galarian, p2.paldea, p2.mega, e3.condicion, e3.nivel, o.nombre as item, o.sprite as sprite_item,o2.nombre as item_2, o2.sprite as sprite_item_2  FROM
         (SELECT p1.id as id_sec, p1.nombre as nombre_sec, p1.sprite as sprite_sec, R.id as id_pri, R.nombre as nombre_pri, R.sprite as sprite_pri
         FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon) as R1
         inner join evoluciones as e2 on e2.id_pokemon_evoluciona_de=R1.id_sec
         inner join pokemones as p2 on e2.id_pokemon=p2.id
         left join evoluciones as e3 on e3.id_pokemon_evoluciona_de=p2.id
-        left join objetos as o on o.id=e3.id_item order by e3.condicion;");
-        $p_ev_3= DB::SELECT("SELECT p3.id, p3.pokedex, p3.nombre, p3.sprite, p3.alola, p3.hisui, p3.galarian, p3.galarian, p3.paldea, p3.mega, e3.nivel, '' as sprite_item FROM
+        left join objetos as o on o.id=e3.id_item
+        left join objetos as o2 on o2.id=e3.id_item_2
+        order by p2.id;");
+        $p_ev_3= DB::SELECT("SELECT p3.id, p3.pokedex, p3.nombre, p3.sprite, p3.alola, p3.hisui, p3.galarian, p3.galarian, p3.paldea, p3.mega, e3.nivel, o.nombre as item, o.sprite as sprite_item,o2.nombre as item_2, o2.sprite as sprite_item_2 FROM
         (SELECT p2.id as id_ter, p2.nombre as nombre_ter, p2.sprite as sprite_ter, R1.* FROM
         (SELECT p1.id as id_sec, p1.nombre as nombre_sec, p1.sprite as sprite_sec, R.id as id_pri, R.nombre as nombre_pri, R.sprite as sprite_pri
         FROM evoluciones as e1 inner join (SELECT p.id, p.nombre, p.sprite FROM pokemones as p WHERE p.id=".$p_base[0]->base.") as R on e1.id_pokemon_evoluciona_de=R.id inner join pokemones as p1 on p1.id=e1.id_pokemon) as R1
         inner join evoluciones e2 on e2.id_pokemon_evoluciona_de=R1.id_sec
         inner join pokemones p2 on e2.id_pokemon=p2.id) as R2 inner join evoluciones e3 on e3.id_pokemon_evoluciona_de = R2.id_ter
-        inner join pokemones p3 on p3.id=e3.id_pokemon order by p3.pokedex;");
+        inner join pokemones p3 on p3.id=e3.id_pokemon
+        left join objetos as o on o.id=e3.id_item
+        left join objetos as o2 on o2.id=e3.id_item_2 order by p3.pokedex;");
         $p_evolutions = array_merge(array_merge(array_merge([$p_ev_0] ,[$p_ev_1]),[$p_ev_2]),[$p_ev_3]);
         return $p_evolutions;
     }
