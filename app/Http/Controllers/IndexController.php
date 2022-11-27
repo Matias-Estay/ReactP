@@ -231,7 +231,7 @@ class IndexController extends Controller
         inner join pokemones p2 on e2.id_pokemon=p2.id) as R2 inner join evoluciones e3 on e3.id_pokemon_evoluciona_de = R2.id_ter
         inner join pokemones p3 on p3.id=e3.id_pokemon
         left join objetos as o on o.id=e3.id_item
-        left join objetos as o2 on o2.id=e3.id_item_2 order by p3.pokedex;");
+        left join objetos as o2 on o2.id=e3.id_item_2 order by p3.id;");
         $p_evolutions = array_merge(array_merge(array_merge([$p_ev_0] ,[$p_ev_1]),[$p_ev_2]),[$p_ev_3]);
         return $p_evolutions;
     }
