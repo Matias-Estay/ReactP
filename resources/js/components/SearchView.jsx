@@ -24,7 +24,7 @@ function Search(){
     const [favorites, setFavorites] = useState(false);
     const [selected_type_1, setSelected_type_1] = React.useState(0);
     const [selected_type_2, setSelected_type_2] = React.useState(0);
-    const [selected_generation, setGeneration] = React.useState(0);
+    const [selected_generation, setGeneration] = React.useState('Select...');
     const [options_type, setOptions_type] = useState([]);
     const [options_generation, setOptions_generation] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(6);
@@ -43,7 +43,7 @@ function Search(){
             setOptions_type(resultado.data);
         });
         window.axios.get('/AllGenerations').then(resultado=>{
-            resultado.data.push({id:0,nombre:'Select...'});
+            resultado.data.push({generacion:'Select...'});
             setOptions_generation(resultado.data);
         });
     };
