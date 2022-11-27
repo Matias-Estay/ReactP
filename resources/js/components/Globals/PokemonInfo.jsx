@@ -380,7 +380,7 @@ export default function PokemonInfo(props) {
                                                                                     <div className="col-md-6 text-center">
                                                                                         <div className="row">
                                                                                             <div className="col-md-12">
-                                                                                                <img src={"images/objects/"+item_f.sprite_item}/>
+                                                                                                <img src={"images/objects/"+item_f.sprite_item} style={{maxHeight:'96px', maxWidth:'96px'}}/>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div className="row">
@@ -389,7 +389,7 @@ export default function PokemonInfo(props) {
                                                                                     </div>
                                                                                     {item_f.sprite_item_2!=''?
                                                                                         <div className="col-md-6 text-center">
-                                                                                            <img src={"images/objects/"+item_f.sprite_item_2}/>
+                                                                                            <img src={"images/objects/"+item_f.sprite_item_2} style={{maxHeight:'96px', maxWidth:'96px'}}/>
                                                                                             <p>{item_f.item_2}</p>
                                                                                         </div>
                                                                                         :<></>
