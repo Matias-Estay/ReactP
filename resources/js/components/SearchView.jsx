@@ -69,6 +69,7 @@ function Search(){
     const DeleleteFilter = ()=>{
         setSelected_type_1(0);
         setSelected_type_2(0);
+        setGeneration('Select...');
         setFavorites(false);
     };
 
