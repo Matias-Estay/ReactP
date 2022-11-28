@@ -51,12 +51,15 @@ function Search(){
     const Select_Type_Change = (event) => {
         switch(event.target.name){
             case "Type_1-name":
+                setPage(0);
                 setSelected_type_1(event.target.value);
                 break;
             case "Type_2-name":
+                setPage(0);
                 setSelected_type_2(event.target.value);
                 break;
             case 'Generation-name':
+                setPage(0);
                 setGeneration(event.target.value);
                 break;
         }
@@ -70,6 +73,7 @@ function Search(){
         setSelected_type_1(0);
         setSelected_type_2(0);
         setGeneration('Select...');
+        setPage(0);
         setFavorites(false);
     };
 
