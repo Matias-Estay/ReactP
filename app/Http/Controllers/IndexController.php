@@ -23,9 +23,15 @@ class IndexController extends Controller
     }
 
     public function get_pokemons(){
-        $data = DB::SELECT("SELECT p.id, p.pokedex, p.nombre, p.id_tipo_1, p.id_tipo_2, p.sprite, p.generacion,
-        (select fav.id_pokemon from favoritos as fav where p.id=fav.id_pokemon) as favorite
-        FROM pokemones as p order by p.pokedex");
+        $user = Auth::user();
+        if($user==null){
+            $data = DB::SELECT("SELECT p.id, p.pokedex, p.nombre, p.id_tipo_1, p.id_tipo_2, p.sprite, p.generacion
+            FROM pokemones as p order by p.pokedex");
+        }else{
+            $data = DB::SELECT("SELECT p.id, p.pokedex, p.nombre, p.id_tipo_1, p.id_tipo_2, p.sprite, p.generacion,
+            (select fav.id_pokemon from favoritos as fav where p.id=fav.id_pokemon and fav.id_usuario=".$user->id.") as favorite
+            FROM pokemones as p order by p.pokedex");
+        }
         return $data;
     }
 
@@ -198,13 +204,7 @@ class IndexController extends Controller
         return array_merge(array_merge(array_merge(array_merge([$inmune],[$very_resistant]),[$resistant]),[$efective]),[$very_efective]);
     }
 
-    public function deletefavorite(Request $data){
-        $user = Auth::user();
-        DB::table('favoritos')->where('id_pokemon', '=', $data->id)->where('id_usuario','=',$user->id)->delete();
-    }
-
     public function get_evolutions(Request $data){
-
         $p_base = DB::SELECT("SELECT IF(count(e.id_pokemon_evoluciona_de)>0,
         (SELECT IF(count(e2.id_pokemon_evoluciona_de)>0,
         (SELECT IF(count(e3.id_pokemon_evoluciona_de)>0,

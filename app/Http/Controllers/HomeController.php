@@ -39,5 +39,10 @@ class HomeController extends Controller
         return 'OK';
     }
 
+    public function deletefavorite(Request $data){
+        $user = Auth::user();
+        DB::table('favoritos')->where('id_pokemon', '=', $data->id)->where('id_usuario','=',$user->id)->delete();
+    }
+
 
 }

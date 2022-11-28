@@ -30,5 +30,5 @@ Route::get('/AllTypes', [App\Http\Controllers\IndexController::class, 'get_types
 Route::get('//AllGenerations', [App\Http\Controllers\IndexController::class, 'get_generations']);
 Route::get('/EvolutionsByID', [App\Http\Controllers\IndexController::class, 'get_evolutions']);
 Route::post('/AddFavorite', [App\Http\Controllers\HomeController::class, 'addtofavorites']);
-Route::post('/DeleteFavorite', [App\Http\Controllers\IndexController::class, 'deletefavorite']);
+Route::post('/DeleteFavorite', [App\Http\Controllers\HomeController::class, 'deletefavorite']);
 Route::post('/AllTypesFilter', [App\Http\Controllers\IndexController::class, 'get_typesweakness']);
