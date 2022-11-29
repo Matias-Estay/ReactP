@@ -107,6 +107,7 @@ function Search(){
 
     const SearchItems = (e)=>{
         setSearch_input(e.target.value);
+        setPage(0);
     };
     return (
         <>
