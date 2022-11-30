@@ -196,7 +196,7 @@ class IndexController extends Controller
         }
         for($i =0;$i<sizeof($resistant);$i++){
             for($j =0;$j<sizeof($inmune);$j++){
-                if($resistant[$i]->id==$inmune[$j]->id){
+                if(sizeof($resistant)>0 && $resistant[$i]->id==$inmune[$j]->id){
                     array_splice($resistant,$i,1);
                 }
             }
