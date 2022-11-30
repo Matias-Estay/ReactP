@@ -63,6 +63,17 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
+                                <div class="g-recaptcha" data-sitekey={{env("CAPTCHA_KEY_PUBLIC")}}></div>
+                                @if(Session::has('g-recaptcha-response'))
+                                <p class="alert {{Session::get('alert-class', 'alert-info')}}">
+                                    {{Session::get('g-recaptcha-response')}}
+                                </p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
