@@ -14,7 +14,7 @@ function Types(){
     const [selected_type_2, setSelected_type_2] = React.useState(0);
     React.useEffect(()=>{
         window.axios.get('/AllTypes').then(resultado=>{
-            resultado.data.push({id:0,nombre:'Seleccionar...'});
+            resultado.data.push({id:0,nombre:'Select...'});
             setOptions_type(resultado.data);
         });
     },[]);
