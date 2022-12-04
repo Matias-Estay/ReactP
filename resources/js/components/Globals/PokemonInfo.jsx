@@ -9,6 +9,7 @@ import { Radar } from 'react-chartjs-2';
 import Weakness from './Weakness.jsx';
 import Loader from './Loader.jsx';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import SdCardAlertIcon from '@mui/icons-material/SdCardAlert';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -138,6 +139,9 @@ export default function PokemonInfo(props) {
   const handleChange = (event, newValue) => {
     setValuetab(newValue);
   };
+  const SendReport = ()=>{
+    window.open('/report?id='+props.id+'&name='+dataP.nombre);
+  };
 
   const data = {
     labels: ['HP','ATK','DEF','SPD','SP.D','SP.A' ],
@@ -188,13 +192,19 @@ export default function PokemonInfo(props) {
                     :<></>}
                 </ul>
                 <div className='d-flex'>
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <Button className='me-3' variant="outlined" color="error" onClick={SendReport}>
+                            <SdCardAlertIcon/>
+                        </Button>
+                    </li>
                     {props.handleClose!=null?
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <Button variant="outlined" color="error" onClick={props.handleClose}>Close</Button>
                             </li>
-                        </ul>
                     :<></>}
+                    </ul>
                 </div>
             </div>
         </div>

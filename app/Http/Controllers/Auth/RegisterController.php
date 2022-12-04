@@ -64,7 +64,6 @@ class RegisterController extends Controller
                     Session::flash('g-recaptcha-response', 'Please solve the reCaptcha');
                     Session::flash('alert-class', 'alert-danger');
                     $fail($attribute.'google reCaptcha failed');
-
                 }
             }
         ]);

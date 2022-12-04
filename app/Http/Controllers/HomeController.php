@@ -24,9 +24,28 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function table_types()
-    {
-        return view('types');
+
+    public function report(Request $data){
+        $id=$data->id;
+        $name=$data->name;
+        return view('report',compact('id','name'));
+    }
+
+    public function addreport(Request $data){
+        $user = Auth::user();
+        $id_pokemon = $data->id;
+        $description = $data->description;
+        DB::table('reportes')->insert([
+            'id_usuario' => $user->id,
+            'id_pokemon' => $id_pokemon,
+            'descripcion' => $description,
+        ]);
+        return 'OK';
+    }
+
+    public function get_pokemon_filter(){
+        $data = DB::SELECT("SELECT id, nombre as label FROM pokemones");
+        return $data;
     }
 
     public function addtofavorites(Request $data)
@@ -43,6 +62,5 @@ class HomeController extends Controller
         $user = Auth::user();
         DB::table('favoritos')->where('id_pokemon', '=', $data->id)->where('id_usuario','=',$user->id)->delete();
     }
-
 
 }

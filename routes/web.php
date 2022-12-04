@@ -19,6 +19,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+Route::get('/report', [App\Http\Controllers\HomeController::class, 'report'])->name('report');
+Route::get('/Pokemon_filter', [App\Http\Controllers\HomeController::class, 'get_pokemon_filter']);
+Route::post('/AddReport', [App\Http\Controllers\HomeController::class, 'addreport']);
 Route::get('/types', [App\Http\Controllers\IndexController::class, 'table_types'])->name('table');
 Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 Route::get('/pokemon', [App\Http\Controllers\IndexController::class, 'pokedex'])->name('pokedexview');

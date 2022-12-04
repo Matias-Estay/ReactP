@@ -17,3 +17,4 @@ import './components/WelcomeView';
 import './components/SearchView';
 import './components/TypesView';
 import './components/PokedexView';
+import './components/ReportView';
