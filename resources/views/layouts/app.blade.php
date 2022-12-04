@@ -42,7 +42,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('report') }}">Report and issue</a>
+                            <a class="nav-link" href="{{ route('report') }}">Report an issue</a>
                         </li>
                     </ul>
 
