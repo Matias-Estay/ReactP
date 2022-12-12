@@ -53,7 +53,7 @@ export default function PokedexModal(props) {
 
   return (
     <>
-      <Button variant="contained" color="info"onClick={handleOpen}>Stats</Button>
+      <Button variant="contained" style={{minWidth:'100px'}} className='me-2 mt-2' color="info" onClick={handleOpen}>Stats</Button>
       <Modal
         open={open}
         onClose={handleClose}

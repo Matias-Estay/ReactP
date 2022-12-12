@@ -217,6 +217,9 @@ function Search(){
                                 <img className='sprite' src={'/images/sprites/'+ String(row.sprite)}></img>
                             </TableCell>
                             <TableCell align="center">
+                                <Button variant="contained" style={{minWidth:'100px'}} className='me-2 mt-2' onClick={()=>{window.open('/pokemon?id='+row.id)}}>
+                                    New tab
+                                </Button>
                                 <PokedexModal id={row.id} Update_data={Update_data}/>
                             </TableCell>
                         </TableRow>
