@@ -20,7 +20,8 @@ function Welcome(props){
                         <div className="col-lg-5">
                             Programed by Matías Estay<br/>
                             {props.laravel}<br/>
-                            React 17.0.2
+                            React 17.0.2<br/>
+                            <a href="https://www.digitalocean.com/?refcode=e728d1cf2eb5&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg" alt="DigitalOcean Referral Badge" /></a>
                         </div>
                     </div>
                 </div>
